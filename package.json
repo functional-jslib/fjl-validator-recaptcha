@@ -7,5 +7,6 @@
     "fjl": "^0.21.0",
     "fjl-mutable": "^0.16.5",
     "fjl-validator": "^0.6.5"
-  }
+  },
+  "recaptchaSecretsPath": "./recaptcha-secrets.json"
 }
