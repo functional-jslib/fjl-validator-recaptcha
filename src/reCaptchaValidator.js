@@ -45,11 +45,12 @@ export const
                         'Content-Type': 'application/x-www-form-urlencoded',
                     }
                 }],
+                // Issued by `toValidationOptions`..
                 // [Object, 'messageTemplates'],
                 // [Boolean, 'valueObscured', false],
                 // [Function, 'valueObscurator', defaultValueObscurator]
-            ], {} ),
-            assignDeep({
+            ], {}),
+            {
                 messageTemplates: {
                     [INVALID_SUBMISSION]: 'The submitted recaptcha submission is invalid/did-not-pass-validation.',
                     [MISSING_INPUT_SECRET]: 'The secret parameter is missing.',
@@ -59,7 +60,8 @@ export const
                     [BAD_REQUEST]: 'Bad request',
                     [UNKNOWN_ERROR]: 'Unknown error.'
                 }
-            }, options || {})
+            },
+            options || {}
         ),
 
     reCaptchaIOValidator = (options, value) => {
