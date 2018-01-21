@@ -7,6 +7,7 @@
   "scripts": {
     "build": "gulp clean && gulp build && npm run test-builds",
     "docs": "jsdoc",
+    "start": "node tests/mock-server.js",
     "test-builds": "jest --testMatch **/tests/*-test-*.js",
     "test": "jest --testMatch **/tests/test-*.js",
     "eslint": "eslint"
@@ -14,11 +15,8 @@
   "dependencies": {
     "fjl": "^0.21.0",
     "fjl-mutable": "^0.16.5",
-    "fjl-validator": "^0.6.5"
-  },
-  "recaptchaKeys": {
-    "siteKey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
-    "secretKey": "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+    "fjl-validator": "^0.6.5",
+    "puppeteer": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -28,9 +26,24 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
+    "body-parser": "^1.18.2",
     "chai": "^4.1.2",
+    "compression": "^1.7.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
     "fjl-range": "^1.0.4",
-    "jest": "^22.1.4"
+    "helmet": "^3.9.0",
+    "jest": "^22.1.4",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
+  },
+  "recaptchaKeys": {
+    "siteKey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
+    "secretKey": "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+  },
+  "mockServer": {
+    "port": 3000
   },
   "jest": {
     "testMatch": [
