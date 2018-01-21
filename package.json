@@ -7,7 +7,7 @@
   "scripts": {
     "build": "gulp clean && gulp build && npm run test-builds",
     "docs": "jsdoc",
-    "start": "node tests/mock-server.js",
+    "start": "nodemon tests/mock-server.js",
     "test-builds": "jest --testMatch **/tests/*-test-*.js",
     "test": "jest --testMatch **/tests/test-*.js",
     "eslint": "eslint"
@@ -24,6 +24,7 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
     "body-parser": "^1.18.2",
@@ -35,6 +36,7 @@
     "fjl-range": "^1.0.4",
     "helmet": "^3.9.0",
     "jest": "^22.1.4",
+    "nodemon": "^1.14.11",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5"
   },

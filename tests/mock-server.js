@@ -4,7 +4,7 @@
  * @standalone
  */
 
-'use strict';
+require('babel-register');
 
 // If 'NODE_ENV' not set, set it
 if (!process.env.NODE_ENV) {
@@ -20,7 +20,7 @@ if (isDevEnv) {
 
 // Preliminaries
 const
-    {appSessionSecret, port} = process.env,
+    {appSessionSecret, recaptchaSecret, port} = process.env,
     express =       require('express'),
     helmet =        require('helmet'),
     session =       require('express-session'),
@@ -28,6 +28,10 @@ const
     bodyParser =    require('body-parser'),
     router =        new express.Router(),
     app = express();
+
+const {log, jsonClone} = require('./utils');
+
+const {reCaptchaIOValidator} = require('../src/reCaptchaValidator');
 
 // Security features
 // @see https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
@@ -73,7 +77,8 @@ app.listen(port, () => {
 
 router.post('/test-recaptcha-validator', (req, res) => {
     res.type('application/json');
-    return res.json(req.body);
+    return reCaptchaIOValidator({secret: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'}, req.body['g-recaptcha-response'])
+        .then(result => res.json(result), (result, errCodes) => log(jsonClone(result), errCodes));
 });
 
 // module.exports = {

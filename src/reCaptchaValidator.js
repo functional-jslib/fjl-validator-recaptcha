@@ -15,10 +15,10 @@
  * }
  * ```
  */
-import {https} from 'https';
-import {queryString} from 'querystring';
+import https from 'https';
+import querystring from 'querystring';
 import {defineEnumProps$} from 'fjl-mutable';
-import {getErrorMsgByKey, toValidationResult, defaultValueObscurator} from 'fjl-validator';
+import {getErrorMsgByKey, toValidationResult, toValidationOptions, defaultValueObscurator} from 'fjl-validator';
 import {assignDeep, isEmpty} from 'fjl';
 
 export const
@@ -32,10 +32,10 @@ export const
     UNKNOWN_ERROR = 'unknown-error',
 
     toReCaptchaOptions = options =>
-        defineEnumProps$([
+        toValidationOptions (
+            defineEnumProps$([
                 [String, 'secret'],
                 [String, 'remoteip'],
-                [String, 'response'],
                 [Boolean, 'async', true],
                 [Object, 'requestOptions', {
                     host: 'www.google.com',
@@ -45,10 +45,11 @@ export const
                         'Content-Type': 'application/x-www-form-urlencoded',
                     }
                 }],
-                [Object, 'messageTemplates', {}],
-                [Boolean, 'valueObscured', false],
-                [Function, 'valueObscurator', defaultValueObscurator]
-            ], assignDeep({
+                // [Object, 'messageTemplates'],
+                // [Boolean, 'valueObscured', false],
+                // [Function, 'valueObscurator', defaultValueObscurator]
+            ], {} ),
+            assignDeep({
                 messageTemplates: {
                     [INVALID_SUBMISSION]: 'The submitted recaptcha submission is invalid/did-not-pass-validation.',
                     [MISSING_INPUT_SECRET]: 'The secret parameter is missing.',
@@ -67,21 +68,29 @@ export const
     },
 
     makeReCaptchaRequest = (options, value) => {
-        if (!(options.secret && options.response)) {
-            throw new Error('Ensure that `secret` and `response` ' +
-                'properties are properly set.');
+        const messages = [];
+
+        if (!value) {
+            messages.push(getErrorMsgByKey(options, MISSING_INPUT_RESPONSE, value));
+        }
+        else if (!options.secret) {
+            messages.push(getErrorMsgByKey(options, MISSING_INPUT_SECRET, value));
+        }
+        if (messages.length) {
+            return Promise.resolve(toValidationResult({result: false, messages, value}))
         }
 
-        const {requestOptions} = options,
-            serializedRequestParams = queryString.stringify(requestOptions);
+        const formParams = {secret: options.secret, remoteip: options.remoteip, response: value},
+            {requestOptions} = options,
+            serializedParams = querystring.stringify(formParams);
 
         // Set content-length header
-        requestOptions.headers['Content-Length'] = serializedRequestParams.length;
+        requestOptions.headers['Content-Length'] = serializedParams.length;
+        requestOptions.body = serializedParams;
 
         // Make request
         return (new Promise((resolve, reject) => {
-            const messages = [],
-                validationResult = toValidationResult({value}),
+            const validationResult = toValidationResult({value}),
                 request = https.request(requestOptions, response => {
                     let body = '';
                     response.setEncoding('utf8');
@@ -90,9 +99,10 @@ export const
                     });
                     response.on('end', () => {
                         let responseData = JSON.parse(body),
-                            errorCode = responseData['error-codes'];
-
-                        errorCode = errorCode ? errorCode.toLowerCase() : null;
+                            errorCodes = responseData['error-codes'],
+                            hasErrorCodes = !!errorCodes && !!errorCodes.length,
+                            normalizedErrorCodes = errorCodes.map(x => x.toLowerCase()),
+                            nonEmptyErrorCodes = [];
 
                         // If validation failed (false, null, undefined)
                         if (!isEmpty(responseData.success)) {
@@ -100,24 +110,43 @@ export const
                             resolve(validationResult);
                         }
 
-                        // Add error message(s)
-                        if (options.messageTemplates.hasOwnProperty(errorCode)) {
-                            messages.push(getErrorMessageByKey(options, errorCode, value));
+                        if (hasErrorCodes) {
+                            // Add error message(s)
+                            nonEmptyErrorCodes =
+                                normalizedErrorCodes.filter(code =>
+                                    options.messageTemplates.hasOwnProperty(code));
+
+                            // Get error messages
+                            if (!nonEmptyErrorCodes.length) {
+                                messages.push(getErrorMsgByKey(options, UNKNOWN_ERROR, value));
+                            }
+
+                            // Else add 'unknown error' error message
+                            else {
+                                nonEmptyErrorCodes.forEach(code =>
+                                    messages.push(getErrorMsgByKey(options, code, value)));
+                            }
                         }
                         else {
-                            messages.push(getErrorMessageByKey(options, UNKNOWN_ERROR, value));
+                            messages.push(getErrorMsgByKey(options, UNKNOWN_ERROR, value));
                         }
+
+                        // Set failure results
                         validationResult.result = false;
                         validationResult.messages = messages;
-                        reject(validationResult, errorCode);
+                        reject(validationResult, nonEmptyErrorCodes);
                     });
                 });
+
             request.on('error', err => {
-                validationResult.messages.push(err);
+                messages.push(err);
+                validationResult.messages = messages;
                 validationResult.result = false;
                 reject(validationResult, err);
             });
-            request.write(serializedRequestParams, 'utf8');
+
+            request.write(serializedParams, 'utf8');
+
             request.end();
         }));
     };
