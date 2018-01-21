@@ -15,6 +15,7 @@ export const
     MISSING_INPUT_RESPONSE = 'missing-input-response',
     INVALID_INPUT_RESPONSE = 'invalid-input-response',
     UNKNOWN_ERROR = 'unknown-error',
+
     toReCaptchaOptions = options =>
         toValidationOptions(
             defineEnumProps$([
@@ -22,25 +23,25 @@ export const
                     [String, 'remoteip'],
                     [String, 'response'],
                     [Boolean, 'async', true],
-                    [Object, 'requestOptions']
-                ], assignDeep({
-                    requestOptions: {
+                    [Object, 'requestOptions', {
                         host: 'www.google.com',
                         path: '/recaptcha/api/siteverify',
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         }
-                    },
-                    messageTemplates: {
-                        [INVALID_SUBMISSION]: 'The submitted recaptcha submission is invalid/did-not-pass-validation.',
-                        [MISSING_INPUT_SECRET]: 'The secret parameter is missing.',
-                        [INVALID_INPUT_SECRET]: 'The secret parameter is invalid or malformed.',
-                        [MISSING_INPUT_RESPONSE]: 'The response parameter is missing.',
-                        [INVALID_INPUT_RESPONSE]: 'The response parameter is invalid or malformed.',
-                        [UNKNOWN_ERROR]: 'Unknown error.'
-                    }
-                }, options))
+                    }]
+                ], {
+                messageTemplates: {
+                    [INVALID_SUBMISSION]: 'The submitted recaptcha submission is invalid/did-not-pass-validation.',
+                    [MISSING_INPUT_SECRET]: 'The secret parameter is missing.',
+                    [INVALID_INPUT_SECRET]: 'The secret parameter is invalid or malformed.',
+                    [MISSING_INPUT_RESPONSE]: 'The response parameter is missing.',
+                    [INVALID_INPUT_RESPONSE]: 'The response parameter is invalid or malformed.',
+                    [UNKNOWN_ERROR]: 'Unknown error.'
+                }
+            }),
+            options || {}
         ),
 
     reCaptchaIOValidator = (options, value) => {
@@ -94,15 +95,12 @@ export const
                         reject(validationResult, errorCode);
                     });
                 });
-
             request.on('error', err => {
                 validationResult.messages.push(err);
                 validationResult.result = false;
                 reject(validationResult, err);
             });
-
             request.write(serializedRequestParams, 'utf8');
-
             request.end();
         }));
     };

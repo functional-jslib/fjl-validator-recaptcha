@@ -1,12 +1,41 @@
 {
   "name": "fjl-validator-recaptcha",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/cjs/reCaptchaValidator.js",
+  "module": "./src/reCaptchaValidator.js",
   "license": "MIT",
+  "scripts": {
+    "build": "gulp clean && gulp build && npm run test-builds",
+    "docs": "jsdoc",
+    "test-builds": "jest --testMatch **/tests/*-test-*.js",
+    "test": "jest --testMatch **/tests/test-*.js",
+    "eslint": "eslint"
+  },
   "dependencies": {
     "fjl": "^0.21.0",
     "fjl-mutable": "^0.16.5",
     "fjl-validator": "^0.6.5"
   },
-  "recaptchaSecretsPath": "./recaptcha-secrets.json"
+  "recaptchaKeys": {
+    "siteKey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
+    "secretKey": "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.1.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "fjl-range": "^1.0.4",
+    "jest": "^22.1.4"
+  },
+  "jest": {
+    "testMatch": [
+      "**/tests/test-*.js"
+    ],
+    "testEnvironment": "node"
+  }
 }
