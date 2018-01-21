@@ -77,7 +77,7 @@ export const
             messages.push(getErrorMsgByKey(options, MISSING_INPUT_SECRET, value));
         }
         if (messages.length) {
-            return Promise.resolve(toValidationResult({result: false, messages, value}))
+            return Promise.resolve(toValidationResult({result: false, messages}))
         }
 
         const formParams = {secret: options.secret, remoteip: options.remoteip, response: value},
@@ -90,7 +90,7 @@ export const
 
         // Make request
         return (new Promise((resolve, reject) => {
-            const validationResult = toValidationResult({value}),
+            const validationResult = toValidationResult(),
                 request = https.request(requestOptions, response => {
                     let body = '';
                     response.setEncoding('utf8');
@@ -101,13 +101,13 @@ export const
                         let responseData = JSON.parse(body),
                             errorCodes = responseData['error-codes'],
                             hasErrorCodes = !!errorCodes && !!errorCodes.length,
-                            normalizedErrorCodes = errorCodes.map(x => x.toLowerCase()),
+                            normalizedErrorCodes = hasErrorCodes ? errorCodes.map(x => x.toLowerCase()) : [],
                             nonEmptyErrorCodes = [];
 
                         // If validation failed (false, null, undefined)
                         if (!isEmpty(responseData.success)) {
                             validationResult.result = true;
-                            resolve(validationResult);
+                            return resolve(validationResult);
                         }
 
                         if (hasErrorCodes) {
@@ -137,16 +137,13 @@ export const
                         reject(validationResult, nonEmptyErrorCodes);
                     });
                 });
-
             request.on('error', err => {
                 messages.push(err);
                 validationResult.messages = messages;
                 validationResult.result = false;
                 reject(validationResult, err);
             });
-
             request.write(serializedParams, 'utf8');
-
             request.end();
         }));
     };

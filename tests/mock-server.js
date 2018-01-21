@@ -77,7 +77,7 @@ app.listen(port, () => {
 
 router.post('/test-recaptcha-validator', (req, res) => {
     res.type('application/json');
-    return reCaptchaIOValidator({secret: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'}, req.body['g-recaptcha-response'])
+    return reCaptchaIOValidator({secret: '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'}, req.body['g-recaptcha-response'])
         .then(result => res.json(result), (result, errCodes) => log(jsonClone(result), errCodes));
 });
 
