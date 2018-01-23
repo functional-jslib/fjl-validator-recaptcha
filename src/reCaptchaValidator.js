@@ -19,11 +19,10 @@ import https from 'https';
 import querystring from 'querystring';
 import {defineEnumProps$} from 'fjl-mutable';
 import {getErrorMsgByKey, toValidationResult, toValidationOptions, defaultValueObscurator} from 'fjl-validator';
-import {assignDeep, isEmpty} from 'fjl';
+import {assign, assignDeep, isEmpty} from 'fjl';
 
 export const
 
-    INVALID_SUBMISSION = 'invalid-submission',
     MISSING_INPUT_SECRET = 'missing-input-secret',
     INVALID_INPUT_SECRET = 'invalid-input-secret',
     MISSING_INPUT_RESPONSE = 'missing-input-response',
@@ -31,46 +30,47 @@ export const
     BAD_REQUEST = 'bad-request',
     UNKNOWN_ERROR = 'unknown-error',
 
+    toReCaptchaTestValue = (incoming) =>
+        assign(defineEnumProps$([
+            [String, 'secret'],
+            [String, 'remoteip'],
+            [String, 'secret']
+        ], {}), incoming),
+
     toReCaptchaOptions = options =>
-        toValidationOptions (
-            defineEnumProps$([
-                [String, 'secret'],
-                [String, 'remoteip'],
-                [Boolean, 'async', true],
-                [Object, 'requestOptions', {
-                    host: 'www.google.com',
-                    path: '/recaptcha/api/siteverify',
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
+        toValidationOptions ( // sets getter and setter for 'messageTemplates', 'valueObscured', and valu
+            assignDeep(
+                defineEnumProps$([[Object, 'requestOptions', {}]], {}),
+                {
+                    requestOptions: {
+                        host: 'www.google.com',
+                        path: '/recaptcha/api/siteverify',
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        }
+                    },
+                    messageTemplates: {
+                        [MISSING_INPUT_SECRET]: 'The secret parameter is missing.',
+                        [INVALID_INPUT_SECRET]: 'The secret parameter is invalid or malformed.',
+                        [MISSING_INPUT_RESPONSE]: 'The response parameter is missing.',
+                        [INVALID_INPUT_RESPONSE]: 'The response parameter is invalid or malformed.',
+                        [BAD_REQUEST]: 'Bad request',
+                        [UNKNOWN_ERROR]: 'Unknown error.'
                     }
-                }],
-                // Issued by `toValidationOptions`..
-                // [Object, 'messageTemplates'],
-                // [Boolean, 'valueObscured', false],
-                // [Function, 'valueObscurator', defaultValueObscurator]
-            ], {}),
-            {
-                messageTemplates: {
-                    [INVALID_SUBMISSION]: 'The submitted recaptcha submission is invalid/did-not-pass-validation.',
-                    [MISSING_INPUT_SECRET]: 'The secret parameter is missing.',
-                    [INVALID_INPUT_SECRET]: 'The secret parameter is invalid or malformed.',
-                    [MISSING_INPUT_RESPONSE]: 'The response parameter is missing.',
-                    [INVALID_INPUT_RESPONSE]: 'The response parameter is invalid or malformed.',
-                    [BAD_REQUEST]: 'Bad request',
-                    [UNKNOWN_ERROR]: 'Unknown error.'
-                }
-            },
-            options || {}
+                },
+                options || {}
+            )
         ),
 
     reCaptchaIOValidator = (options, value) => {
         const ops = toReCaptchaOptions(options);
-        return makeReCaptchaRequest(ops, value);
+        return makeReCaptchaRequest(ops, toReCaptchaTestValue(value));
     },
 
     makeReCaptchaRequest = (options, value) => {
-        const messages = [];
+        const messages = [],
+            {secret, remoteip, response} = value;
 
         if (!value) {
             messages.push(getErrorMsgByKey(options, MISSING_INPUT_RESPONSE, value));
@@ -82,7 +82,7 @@ export const
             return Promise.resolve(toValidationResult({result: false, messages}))
         }
 
-        const formParams = {secret: options.secret, remoteip: options.remoteip, response: value},
+        const formParams = {secret, remoteip, response},
             {requestOptions} = options,
             serializedParams = querystring.stringify(formParams);
 

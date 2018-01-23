@@ -67,18 +67,24 @@ router.get('/', (req, res) => {
     return res.end('Health check page.');
 });
 
+router.post('/test-recaptcha-validator', (req, res) => {
+    res.type('application/json');
+    return reCaptchaIOValidator(null, {
+        secret: '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe',
+        response: req.body['g-recaptcha-response']
+    })
+        .then(
+            result => res.json(result),
+            (result, errCodes) => log(jsonClone(result), errCodes)
+        );
+});
+
 // Set routes and route handlers to use
 app.use(router);
 
 // Start app
 app.listen(port, () => {
     console.log('\nListening on port:' + port);
-});
-
-router.post('/test-recaptcha-validator', (req, res) => {
-    res.type('application/json');
-    return reCaptchaIOValidator({secret: '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'}, req.body['g-recaptcha-response'])
-        .then(result => res.json(result), (result, errCodes) => log(jsonClone(result), errCodes));
 });
 
 // module.exports = {
