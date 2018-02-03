@@ -30,37 +30,36 @@ export const
     BAD_REQUEST = 'bad-request',
     UNKNOWN_ERROR = 'unknown-error',
 
-    toReCaptchaTestValue = (incoming) =>
+    toReCaptchaTestValue = (incoming, outgoing = {}) =>
         assign(defineEnumProps$([
             [String, 'secret'],
             [String, 'remoteip'],
             [String, 'secret']
-        ], {}), incoming),
+        ], outgoing), incoming),
 
-    toReCaptchaOptions = options =>
-        toValidationOptions ( // sets getter and setter for 'messageTemplates', 'valueObscured', and valu
-            assignDeep(
-                defineEnumProps$([[Object, 'requestOptions', {}]], {}),
-                {
-                    requestOptions: {
-                        host: 'www.google.com',
-                        path: '/recaptcha/api/siteverify',
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        }
-                    },
-                    messageTemplates: {
-                        [MISSING_INPUT_SECRET]: 'The secret parameter is missing.',
-                        [INVALID_INPUT_SECRET]: 'The secret parameter is invalid or malformed.',
-                        [MISSING_INPUT_RESPONSE]: 'The response parameter is missing.',
-                        [INVALID_INPUT_RESPONSE]: 'The response parameter is invalid or malformed.',
-                        [BAD_REQUEST]: 'Bad request',
-                        [UNKNOWN_ERROR]: 'Unknown error.'
+    toReCaptchaOptions = (options, outgoing = {}) =>
+         // @note `toValidationOptions` sets getter and setter for 'messageTemplates', 'valueObscured', and valu
+        assignDeep(
+            defineEnumProps$([[Object, 'requestOptions', {}]], toValidationOptions(outgoing)),
+            {
+                requestOptions: {
+                    host: 'www.google.com',
+                    path: '/recaptcha/api/siteverify',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
                     }
                 },
-                options || {}
-            )
+                messageTemplates: {
+                    [MISSING_INPUT_SECRET]: 'The secret parameter is missing.',
+                    [INVALID_INPUT_SECRET]: 'The secret parameter is invalid or malformed.',
+                    [MISSING_INPUT_RESPONSE]: 'The response parameter is missing.',
+                    [INVALID_INPUT_RESPONSE]: 'The response parameter is invalid or malformed.',
+                    [BAD_REQUEST]: 'Bad request',
+                    [UNKNOWN_ERROR]: 'Unknown error.'
+                }
+            },
+            options || {}
         ),
 
     reCaptchaIOValidator = (options, value) => {
