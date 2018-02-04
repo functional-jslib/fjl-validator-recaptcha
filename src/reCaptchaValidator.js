@@ -71,11 +71,11 @@ export const
         const messages = [],
             {secret, remoteip, response} = value;
 
-        if (!value) {
-            messages.push(getErrorMsgByKey(options, MISSING_INPUT_RESPONSE, value));
-        }
-        else if (!secret) {
+        if (!secret) {
             messages.push(getErrorMsgByKey(options, MISSING_INPUT_SECRET, value));
+        }
+        if (!response) {
+            messages.push(getErrorMsgByKey(options, MISSING_INPUT_RESPONSE, value));
         }
         if (messages.length) {
             return Promise.resolve(toValidationResult({result: false, messages}))
