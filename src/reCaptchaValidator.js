@@ -19,7 +19,7 @@ import https from 'https';
 import querystring from 'querystring';
 import {defineEnumProps$} from 'fjl-mutable';
 import {getErrorMsgByKey, toValidationResult, toValidationOptions, defaultValueObscurator} from 'fjl-validator';
-import {assign, assignDeep, isEmpty} from 'fjl';
+import {assign, assignDeep, isEmpty, curry, flip} from 'fjl';
 
 export const
 
@@ -62,12 +62,7 @@ export const
             options || {}
         ),
 
-    reCaptchaIOValidator = (options, value) => {
-        const ops = toReCaptchaOptions(options);
-        return makeReCaptchaRequest(ops, toReCaptchaTestValue(value));
-    },
-
-    makeReCaptchaRequest = (options, value) => {
+    makeReCaptchaRequest$ = (options, value, resolve, reject) => {
         const messages = [],
             {secret, remoteip, response} = value;
 
@@ -78,7 +73,7 @@ export const
             messages.push(getErrorMsgByKey(options, MISSING_INPUT_RESPONSE, value));
         }
         if (messages.length) {
-            return Promise.resolve(toValidationResult({result: false, messages}))
+            return reject(toValidationResult({result: false, messages}))
         }
 
         const formParams = {secret, remoteip, response},
@@ -90,61 +85,77 @@ export const
         requestOptions.body = serializedParams;
 
         // Make request
-        return (new Promise((resolve, reject) => {
-            const validationResult = toValidationResult(),
-                request = https.request(requestOptions, response => {
-                    let body = '';
-                    response.setEncoding('utf8');
-                    response.on('data', chunk => {
-                        body += chunk;
-                    });
-                    response.on('end', () => {
-                        let responseData = JSON.parse(body),
-                            errorCodes = responseData['error-codes'],
-                            hasErrorCodes = !!errorCodes && !!errorCodes.length,
-                            normalizedErrorCodes = hasErrorCodes ? errorCodes.map(x => x.toLowerCase()) : [],
-                            nonEmptyErrorCodes = [];
+        const validationResult = toValidationResult(),
+            request = https.request(requestOptions, response => {
+                let body = '';
+                response.setEncoding('utf8');
+                response.on('data', chunk => {
+                    body += chunk;
+                });
+                response.on('end', () => {
+                    let responseData = JSON.parse(body),
+                        errorCodes = responseData['error-codes'],
+                        hasErrorCodes = !!errorCodes && !!errorCodes.length,
+                        normalizedErrorCodes = hasErrorCodes ? errorCodes.map(x => x.toLowerCase()) : [],
+                        nonEmptyErrorCodes = [];
 
-                        // If validation failed (false, null, undefined)
-                        if (!isEmpty(responseData.success)) {
-                            validationResult.result = true;
-                            return resolve(validationResult);
-                        }
+                    // If validation failed (false, null, undefined)
+                    if (!isEmpty(responseData.success)) {
+                        validationResult.result = true;
+                        return resolve(validationResult);
+                    }
 
-                        if (hasErrorCodes) {
-                            // Add error message(s)
-                            nonEmptyErrorCodes =
-                                normalizedErrorCodes.filter(code =>
-                                    options.messageTemplates.hasOwnProperty(code));
+                    if (hasErrorCodes) {
+                        // Add error message(s)
+                        nonEmptyErrorCodes =
+                            normalizedErrorCodes.filter(code =>
+                                options.messageTemplates.hasOwnProperty(code));
 
-                            // Get error messages
-                            if (!nonEmptyErrorCodes.length) {
-                                messages.push(getErrorMsgByKey(options, UNKNOWN_ERROR, value));
-                            }
-
-                            // Else add 'unknown error' error message
-                            else {
-                                nonEmptyErrorCodes.forEach(code =>
-                                    messages.push(getErrorMsgByKey(options, code, value)));
-                            }
-                        }
-                        else {
+                        // Get error messages
+                        if (!nonEmptyErrorCodes.length) {
                             messages.push(getErrorMsgByKey(options, UNKNOWN_ERROR, value));
                         }
 
-                        // Set failure results
-                        validationResult.result = false;
-                        validationResult.messages = messages;
-                        reject(validationResult, nonEmptyErrorCodes);
-                    });
+                        // Else add 'unknown error' error message
+                        else {
+                            nonEmptyErrorCodes.forEach(code =>
+                                messages.push(getErrorMsgByKey(options, code, value)));
+                        }
+                    }
+                    else {
+                        messages.push(getErrorMsgByKey(options, UNKNOWN_ERROR, value));
+                    }
+
+                    // Set failure results
+                    validationResult.result = false;
+                    validationResult.messages = messages;
+                    reject(validationResult, nonEmptyErrorCodes);
                 });
-            request.on('error', err => {
-                messages.push(err);
-                validationResult.messages = messages;
-                validationResult.result = false;
-                reject(validationResult, err);
             });
-            request.write(serializedParams, 'utf8');
-            request.end();
-        }));
-    };
+        request.on('error', err => {
+            messages.push(err);
+            validationResult.messages = messages;
+            validationResult.result = false;
+            reject(validationResult, err);
+        });
+        request.write(serializedParams, 'utf8');
+        request.end();
+    },
+
+    reCaptchaValidator$ = (options, value, resolve, reject) =>
+        makeReCaptchaRequest$(
+            toReCaptchaOptions(options),
+            toReCaptchaTestValue(value),
+            resolve, reject
+        ),
+
+    reCaptchaIOValidator$ = (options, value) =>
+        (new Promise((resolve, reject) =>
+            reCaptchaValidator$(options, value, resolve, reject))
+        ),
+
+    reCaptchaIOValidator = curry(reCaptchaIOValidator$),
+
+    reCaptchaValidator = reCaptchaIOValidator,
+
+    reCaptchaValidatorV2 = curry(flip(reCaptchaIOValidator$));

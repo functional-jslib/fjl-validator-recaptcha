@@ -71,10 +71,10 @@ describe ('#reCaptchaIOValidator', function () {
         done();
     });
 
-    test ('should return a validation result with a value of `false` for `result` when `secret` and `response` are both missing', () => {
+    test ('should reject with with validation result `result` set to `false` when `secret` and `response` are both missing', () => {
         expect.assertions(5);
         return reCaptchaIOValidator(null, {})
-            .then(({result, value, messages}) => {
+            .catch(({result, value, messages}) => {
                 expect(result).toEqual(false);
                 expect(messages.length).toEqual(2);
                 expect(messages[0]).toEqual(messagesTemplatesForTests[MISSING_INPUT_SECRET]);
@@ -83,10 +83,10 @@ describe ('#reCaptchaIOValidator', function () {
             });
     });
 
-    test ('should return a "failure" validation result when `response` is missing', () => {
+    test ('should reject with with validation result `result` set to `false` when `response` is missing', () => {
         expect.assertions(4);
         return reCaptchaIOValidator(null, {secret: recaptchaKeys.secretKey})
-            .then(({result, value, messages}) => {
+            .catch(({result, value, messages}) => {
                 expect(result).toEqual(false);
                 expect(messages.length).toEqual(1);
                 expect(messages[0]).toEqual(messagesTemplatesForTests[MISSING_INPUT_RESPONSE]);
@@ -94,10 +94,10 @@ describe ('#reCaptchaIOValidator', function () {
             });
     });
 
-    test ('should return a "failure" validation result when `secret` is missing', () => {
+    test ('should reject with with validation result `result` set to `false` when `secret` is missing', () => {
         expect.assertions(4);
         return reCaptchaIOValidator(null, {response: 'hello-world'})
-            .then(({result, value, messages}) => {
+            .catch(({result, value, messages}) => {
                 expect(result).toEqual(false);
                 expect(messages.length).toEqual(1);
                 expect(messages[0]).toEqual(messagesTemplatesForTests[MISSING_INPUT_SECRET]);
