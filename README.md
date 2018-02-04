@@ -171,10 +171,12 @@ fetch('/validate-recaptcha', {
 ```
 
 ## Docs
-@todo include jsdocs link here
+**JSDocs format:**  
+[https://functional-jslib.github.io/fjl-validator-recaptcha/](https://functional-jslib.github.io/fjl-validator-recaptcha/)
 
 ## Members overview:
-This is just an overview of members included in library.  For in-depth docs view jsdocs located @todo here:
+This is just an overview of members included in library.  For in-depth docs view 
+[jsdocs](https://functional-jslib.github.io/fjl-validator-recaptcha/) version of docs instead:
 - `reCaptchaValidator (options, value)` - Makes an IO Request (returns a promise).  Curried.
 - `reCaptchaIOValidator (options, value)` - Sames `reCaptchaValidator` just explicitly named.  Curried.
 - `reCaptchaValidator$ (options, value, resolve, reject)` - Old style/callback based.  Not curried.
