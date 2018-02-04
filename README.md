@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/functional-jslib/fjl-validator-recaptcha.png)](https://travis-ci.org/functional-jslib/fjl-validator-recaptcha)
+[![GitHub version](https://badge.fury.io/gh/functional-jslib%2Ffjl.svg)](http://badge.fury.io/gh/functional-jslib%2Ffjl)
+[![NPM version](https://badge.fury.io/js/fjl-validator-recaptcha.svg)](http://badge.fury.io/js/fjl-validator-recaptcha)
+[![Dependencies](https://david-dm.org/functional-jslib/fjl-validator-recaptcha.png)](https://david-dm.org/functional-jslib/fjl-validator-recaptcha)
 # fjl-validator-recaptcha
 ReCaptchaV2 Validator (for backend (nodejs)).
 
