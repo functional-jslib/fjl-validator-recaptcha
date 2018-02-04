@@ -3,6 +3,5 @@ dist: trusty
 before_script: npm install -g forever
 language: node_js
 node_js:
-  - 6.11.0
-  - 8.6
-  - 9
+  - 6.12
+  - 8.9

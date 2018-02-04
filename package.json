@@ -10,9 +10,9 @@
     "docs": "gulp jsdoc",
     "start": "forever start tests/mock-server.js",
     "stop": "forever stop tests/mock-server.js",
-    "test-builds": "jest --testMatch **/tests/*-test-*.js",
-    "test": "jest --testMatch **/tests/test-*.js",
     "pretest": "npm start",
+    "test": "jest --testMatch **/tests/test-*.js",
+    "test-builds": "jest --testMatch **/tests/*-test-*.js",
     "posttest": "npm stop",
     "eslint": "eslint"
   },
@@ -44,7 +44,6 @@
     "helmet": "^3.9.0",
     "jest": "^22.1.4",
     "lazypipe": "^1.0.1",
-    "nodemon": "^1.14.11",
     "puppeteer": "^1.0.0"
   },
   "recaptchaKeys": {
