@@ -54,7 +54,7 @@ const path = require('path'),
     };
 
 gulp.task('clean', () => {
-    let pathsToDelete = [amd, cjs, es6Module, iife, umd]
+    let pathsToDelete = [cjs]
         .map(partialPath => buildPath(partialPath, '**', '*.js'));
     return deleteFilePaths(pathsToDelete);
 });

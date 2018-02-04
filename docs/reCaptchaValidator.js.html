@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: reCaptchaValidator.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: reCaptchaValidator.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * Created by elydelacruz on 6/10/16.
  * @module fjlValidatorReCaptcha
  * @recaptchaVersion v2
@@ -20,32 +48,32 @@ import {assign, assignDeep, isEmpty, curry, flip} from 'fjl';
  *-------------------*/
 
 /**
- * @typedef {Object.<String, (Function|String)>} MessageTemplates
+ * @typedef {Object.&lt;String, (Function|String)>} MessageTemplates
  * Message Templates object to get error messages from error codes received from the reCaptcha-v2 'backend' service.
  */
 
 /**
- * @typedef {Object.<String, *>} RequestOptions
+ * @typedef {Object.&lt;String, *>} RequestOptions
  * Options used to make request to google's reCaptcha-v2 backend-validation service.
  */
 
 /**
- * @typedef {Object.<String, *>} ReCaptchaValidatorOptions
+ * @typedef {Object.&lt;String, *>} ReCaptchaValidatorOptions
  * @property requestOptions {RequestOptions}
  * @property messageTemplates {MessageTemplates}
  */
 
 /**
- * @typedef {Object.<String, String>} ReCaptchaTestValue
+ * @typedef {Object.&lt;String, String>} ReCaptchaTestValue
  * @property {String} secret - The 'secret' key sent to the google reCaptcha-v2 backend service.
  * @property {String} response - The 'response' string sent to the reCaptcha-v2 backend service.
  * @property {String} [remoteip=undefined] - Optional.  The 'remoteip' string sent to the reCaptcha-v2 backend-validation service.
  */
 
 /**
- * @typedef {Object.<String, *>} ValidationResult
+ * @typedef {Object.&lt;String, *>} ValidationResult
  * @property {Boolean} result - Result of validators validation (`true` or `false`).
- * @property {Array.<String>} messages - Validation failure messages;  Reasons why tested value(s) didn't pass validation.
+ * @property {Array.&lt;String>} messages - Validation failure messages;  Reasons why tested value(s) didn't pass validation.
  * @type {string}
  */
 
@@ -185,7 +213,7 @@ export const
                 res.on('end', () => {
                     let responseData = JSON.parse(body),
                         errorCodes = responseData['error-codes'],
-                        hasErrorCodes = !!errorCodes && !!errorCodes.length,
+                        hasErrorCodes = !!errorCodes &amp;&amp; !!errorCodes.length,
                         normalizedErrorCodes = hasErrorCodes ? errorCodes.map(x => x.toLowerCase()) : [],
                         nonEmptyErrorCodes = [];
 
@@ -258,7 +286,7 @@ export const
      * @function module:fjlValidatorReCaptcha.reCaptchaIOValidator$
      * @param options {ReCaptchaValidatorOptions}
      * @param value {ReCaptchaTestValue}
-     * @returns {(Promise.<ValidationResult>|Promise.<ValidationResult, Array.<String>>)}
+     * @returns {(Promise.&lt;ValidationResult>|Promise.&lt;ValidationResult, Array.&lt;String>>)}
      */
     reCaptchaIOValidator$ = (options, value) =>
         (new Promise((resolve, reject) =>
@@ -270,7 +298,7 @@ export const
      * @function module:fjlValidatorReCaptcha.reCaptchaIOValidator
      * @param options {ReCaptchaValidatorOptions}
      * @param value {ReCaptchaTestValue}
-     * @returns {(Promise.<ValidationResult>|Promise.<ValidationResult, Array.<String>>)}
+     * @returns {(Promise.&lt;ValidationResult>|Promise.&lt;ValidationResult, Array.&lt;String>>)}
      * @curried - Is curried.
      */
     reCaptchaIOValidator = curry(reCaptchaIOValidator$),
@@ -280,7 +308,7 @@ export const
      * @function module:fjlValidatorReCaptcha.reCaptchaValidator
      * @param options {ReCaptchaValidatorOptions}
      * @param value {ReCaptchaTestValue}
-     * @returns {(Promise.<ValidationResult>|Promise.<ValidationResult, Array.<String>>)}
+     * @returns {(Promise.&lt;ValidationResult>|Promise.&lt;ValidationResult, Array.&lt;String>>)}
      * @curried - Is curried.
      */
     reCaptchaValidator = reCaptchaIOValidator,
@@ -291,7 +319,30 @@ export const
      * @function module:fjlValidatorReCaptcha.reCaptchaValidatorV2
      * @param value {ReCaptchaTestValue}
      * @param options {ReCaptchaValidatorOptions}
-     * @returns {(Promise.<ValidationResult>|Promise.<ValidationResult, Array.<String>>)}
+     * @returns {(Promise.&lt;ValidationResult>|Promise.&lt;ValidationResult, Array.&lt;String>>)}
      * @curried - Is curried.
      */
     reCaptchaValidatorV2 = curry(flip(reCaptchaIOValidator$));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-fjlValidatorReCaptcha.html">fjlValidatorReCaptcha</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 04 2018 13:15:52 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

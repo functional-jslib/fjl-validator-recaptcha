@@ -5,8 +5,9 @@
   "module": "./src/reCaptchaValidator.js",
   "license": "BSD-3-Clause",
   "scripts": {
+    "pre-publish": "npm run build && npm run docs",
     "build": "gulp clean && gulp build && npm run test-builds",
-    "docs": "jsdoc",
+    "docs": "gulp jsdoc",
     "start": "nodemon tests/mock-server.js",
     "test-builds": "jest --testMatch **/tests/*-test-*.js",
     "test": "jest --testMatch **/tests/test-*.js",
