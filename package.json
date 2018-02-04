@@ -12,7 +12,7 @@
     "stop": "forever stop tests/mock-server.js",
     "test-builds": "jest --testMatch **/tests/*-test-*.js",
     "test": "jest --testMatch **/tests/test-*.js",
-    "pretest": "npm stop && npm start",
+    "pretest": "npm start",
     "posttest": "npm stop",
     "eslint": "eslint"
   },
