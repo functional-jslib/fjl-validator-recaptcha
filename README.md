@@ -10,6 +10,7 @@ ReCaptchaV2 Validator (for backend (nodejs)).
 - [Importing/Including](#importing-including)
 - [Usage](#usage)
 - [Docs](#usage)
+- [Pre-Requisites/Caveats](#pre-requisites-caveats)
 - [Development](#development)
 - [Resources](#resources)
 - [License](#license)
@@ -174,6 +175,13 @@ fetch('/validate-recaptcha', {
         }
     );
 ```
+
+## Pre-Requisites/Caveats
+### Node versions:
+- node v6.12+
+
+### Tested on:
+Tested on node v6.12 and v8.9
 
 ## Docs
 **JSDocs format:**  

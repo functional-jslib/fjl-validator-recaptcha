@@ -5,15 +5,15 @@
   "module": "./src/reCaptchaValidator.js",
   "license": "BSD-3-Clause",
   "scripts": {
-    "pre-publish": "npm run build && npm run docs",
-    "build": "gulp clean && gulp build && npm run test-builds",
+    "pre-publish": "yarn build && yarn docs",
+    "build": "gulp clean && gulp build && yarn test-builds",
     "docs": "gulp jsdoc",
     "start": "forever start tests/mock-server.js",
     "stop": "forever stop tests/mock-server.js",
-    "pretest": "npm start",
+    "pretest": "yarn start",
     "test": "jest --testMatch **/tests/test-*.js",
     "test-builds": "jest --testMatch **/tests/*-test-*.js",
-    "posttest": "npm stop",
+    "posttest": "yarn stop",
     "eslint": "eslint"
   },
   "dependencies": {
