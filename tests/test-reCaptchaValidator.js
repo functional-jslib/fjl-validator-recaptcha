@@ -1,6 +1,6 @@
 import {
     reCaptchaIOValidator,
-    toReCaptchaOptions,
+    toReCaptchaValidatorOptions,
     toReCaptchaTestValue,
     MISSING_INPUT_SECRET,
     MISSING_INPUT_RESPONSE,
@@ -22,17 +22,17 @@ describe ('#toReCaptchaTestValue', function () {
     ], toReCaptchaTestValue());
 });
 
-describe ('#toReCaptchaOptions', function () {
+describe ('#toReCaptchaValidatorOptions', function () {
     [{}, undefined].forEach(value => {
         runHasPropTypes([
             [Object, 'requestOptions', [{}, false]]
-        ], toReCaptchaOptions(value));
+        ], toReCaptchaValidatorOptions(value));
     });
 });
 
 describe ('#reCaptchaIOValidator', function () {
 
-    const messagesTemplatesForTests = toReCaptchaOptions().messageTemplates,
+    const messagesTemplatesForTests = toReCaptchaValidatorOptions().messageTemplates,
         browserUserAgentString = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
             'Ubuntu Chromium/60.0.3112.113 Chrome/60.0.3112.113 Safari/537.36';
 

@@ -31,6 +31,8 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "fjl-range": "^1.0.4",
+    "gulp": "^3.9.1",
+    "gulp-jsdoc": "^0.1.5",
     "helmet": "^3.9.0",
     "jest": "^22.1.4",
     "nodemon": "^1.14.11",
