@@ -1,6 +1,6 @@
 sudo: required
 dist: trusty
-before_script: npm install -g forever
+before_script: yarn global add forever
 language: node_js
 node_js:
   - 6.12
