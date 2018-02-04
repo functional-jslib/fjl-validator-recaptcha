@@ -12,7 +12,7 @@ import puppeteer from 'puppeteer';
 
 jest.setTimeout(34000);
 
-const {recaptchaKeys} = packageJson;
+const {recaptchaKeys, mockServerPort} = packageJson;
 
 describe ('#toReCaptchaTestValue', function () {
     runHasPropTypes([
@@ -43,7 +43,7 @@ describe ('#reCaptchaIOValidator', function () {
             browser = await puppeteer.launch(),
             page = await browser.newPage();
         await page.setUserAgent(browserUserAgentString);
-        await page.goto('http://localhost:3000/test-recaptcha-validator.html');
+        await page.goto(`http://localhost:${mockServerPort}/test-recaptcha-validator.html`);
         await page.waitFor(3000);
         const recaptchaFrame = page.mainFrame().childFrames()[0];
         await recaptchaFrame.waitFor(anchorName);

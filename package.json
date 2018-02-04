@@ -8,9 +8,12 @@
     "pre-publish": "npm run build && npm run docs",
     "build": "gulp clean && gulp build && npm run test-builds",
     "docs": "gulp jsdoc",
-    "start": "nodemon tests/mock-server.js",
+    "start": "forever start tests/mock-server.js",
+    "stop": "forever stop tests/mock-server.js",
     "test-builds": "jest --testMatch **/tests/*-test-*.js",
     "test": "jest --testMatch **/tests/test-*.js",
+    "pretest": "npm stop && npm start",
+    "posttest": "npm stop",
     "eslint": "eslint"
   },
   "dependencies": {
@@ -33,6 +36,7 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "fjl-range": "^1.0.4",
+    "forever": "^0.15.3",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-eslint": "^4.0.2",
@@ -47,9 +51,7 @@
     "siteKey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
     "secretKey": "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
   },
-  "mockServer": {
-    "port": 3000
-  },
+  "mockServerPort": 10087,
   "jest": {
     "testMatch": [
       "**/tests/test-*.js"

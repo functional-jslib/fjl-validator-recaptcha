@@ -190,7 +190,8 @@ This is just an overview of members included in library.  For in-depth docs view
 - `toReCaptchaValidatorOptions (options)` - Returns a normalized `reCaptchaValidatorOptions` object.
 - `toReCaptchaTestValue (options)` - Returns a normalized `reCaptchaValidatorTestValue` object.
 
-## Development 
+## Development
+- Requires `npm install -g forever` - Due to using it for 'travis-ci' automated testing. 
 - @see package.json "scripts" sections.
 - @note `recaptchaKeys` in package.json are the ones prescribed by recaptcha
 team for doing `always true` (response from recaptcha service) testing.

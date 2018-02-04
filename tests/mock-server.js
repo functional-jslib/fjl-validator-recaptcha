@@ -20,7 +20,9 @@ if (isDevEnv) {
 
 // Preliminaries
 const
-    {appSessionSecret, recaptchaSecret, port} = process.env,
+    {appSessionSecret, recaptchaSecret} = process.env,
+    {mockServerPort} =   require('../package'),
+    port =          mockServerPort,
     express =       require('express'),
     helmet =        require('helmet'),
     session =       require('express-session'),
