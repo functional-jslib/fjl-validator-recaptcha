@@ -63,10 +63,10 @@ describe ('#reCaptchaIOValidator', function () {
                 })
                 .catch(log);
         });
-        await page.screenshot({path: 'example.png'});
+        // await page.screenshot({path: '../.test-screenshots/example.png'});
         await page.click('input[type="submit"]');
-        await page.waitFor(3000);
-        await page.screenshot({path: 'example2.png'});
+        await page.waitFor(3000); // Allow time for 'response' event handler (on `page` object) to be triggered.
+        // await page.screenshot({path: '../.test-screenshots/example2.png'});
         await browser.close();
         done();
     });

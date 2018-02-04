@@ -3,7 +3,8 @@
 .idea/modules.xml
 .idea/workspace.xml
 .idea/encodings.xml
-/node_modules
+.test-screenshots/
+node_modules/
 
 # misc
 .DS_Store
