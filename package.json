@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./dist/cjs/reCaptchaValidator.js",
   "module": "./src/reCaptchaValidator.js",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "scripts": {
     "build": "gulp clean && gulp build && npm run test-builds",
     "docs": "jsdoc",
@@ -15,11 +15,12 @@
   "dependencies": {
     "fjl": "^0.21.0",
     "fjl-mutable": "^0.16.5",
-    "fjl-validator": "^0.6.5",
-    "puppeteer": "^1.0.0"
+    "fjl-validator": "^0.6.5"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "babel-jest": "^22.1.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -32,12 +33,14 @@
     "express-session": "^1.15.6",
     "fjl-range": "^1.0.4",
     "gulp": "^3.9.1",
-    "gulp-jsdoc": "^0.1.5",
+    "gulp-babel": "^7.0.1",
+    "gulp-eslint": "^4.0.2",
+    "gulp-jsdoc3": "^1.0.1",
     "helmet": "^3.9.0",
     "jest": "^22.1.4",
+    "lazypipe": "^1.0.1",
     "nodemon": "^1.14.11",
-    "request": "^2.83.0",
-    "request-promise-native": "^1.0.5"
+    "puppeteer": "^1.0.0"
   },
   "recaptchaKeys": {
     "siteKey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
@@ -51,5 +54,34 @@
       "**/tests/test-*.js"
     ],
     "testEnvironment": "node"
+  },
+  "buildConfig": {
+    "inputModuleName": "reCaptchaValidator",
+    "inputFilePath": "./src/reCaptchaValidator.js",
+    "outputFileName": "fjl-validator-recaptcha.js",
+    "srcsGlob": "./src/**/*.js",
+    "paths": {
+      "dist": "./dist",
+      "docs": "./docs"
+    },
+    "folderNames": {
+      "cjs": "cjs"
+    },
+    "cjsRollup": {
+      "babelPlugin": {
+        "babelrc": false,
+        "presets": [
+          [
+            "env",
+            {
+              "modules": false
+            }
+          ]
+        ],
+        "plugins": [
+          "babel-plugin-add-module-exports"
+        ]
+      }
+    }
   }
 }

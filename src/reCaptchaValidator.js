@@ -120,7 +120,7 @@ export const
                     path: '/recaptcha/api/siteverify',
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 },
                 messageTemplates: {
@@ -155,7 +155,8 @@ export const
             messages.push(getErrorMessageByKey(options, MISSING_INPUT_RESPONSE, value));
         }
         if (messages.length) {
-            return reject(toValidationResult({result: false, messages}))
+            reject(toValidationResult({result: false, messages}));
+            return; // Exiting explicitly here due to function being able to be used in callback style (old-style)
         }
 
         const formParams = {secret, remoteip, response},
@@ -184,7 +185,8 @@ export const
                     // If validation failed (false, null, undefined)
                     if (!isEmpty(responseData.success)) {
                         validationResult.result = true;
-                        return resolve(validationResult);
+                        resolve(validationResult);
+                        return;
                     }
 
                     if (hasErrorCodes) {
