@@ -34,7 +34,7 @@ export const
         assign(defineEnumProps$([
             [String, 'secret'],
             [String, 'remoteip'],
-            [String, 'secret']
+            [String, 'response']
         ], outgoing), incoming),
 
     toReCaptchaOptions = (options, outgoing = {}) =>
@@ -74,7 +74,7 @@ export const
         if (!value) {
             messages.push(getErrorMsgByKey(options, MISSING_INPUT_RESPONSE, value));
         }
-        else if (!options.secret) {
+        else if (!secret) {
             messages.push(getErrorMsgByKey(options, MISSING_INPUT_SECRET, value));
         }
         if (messages.length) {
