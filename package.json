@@ -1,6 +1,6 @@
 {
   "name": "fjl-validator-recaptcha",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/cjs/reCaptchaValidator.js",
   "module": "./src/reCaptchaValidator.js",
   "license": "BSD-3-Clause",
@@ -85,5 +85,7 @@
         ]
       }
     }
-  }
+  },
+  "repository": "git@github.com:functional-jslib/fjl-validator-recaptcha.git",
+  "author": "Ely De La Cruz <elycruz@elycruz.com>"
 }
