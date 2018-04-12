@@ -71,10 +71,10 @@ describe ('#reCaptchaIOValidator', function () {
         done();
     });
 
-    test ('should reject with with validation result `result` set to `false` when `secret` and `response` are both missing', () => {
+    test ('should resolve with with validation result `result` set to `false` when `secret` and `response` are both missing', () => {
         expect.assertions(5);
         return reCaptchaIOValidator(null, {})
-            .catch(({result, value, messages}) => {
+            .then(({result, value, messages}) => {
                 expect(result).toEqual(false);
                 expect(messages.length).toEqual(2);
                 expect(messages[0]).toEqual(messagesTemplatesForTests[MISSING_INPUT_SECRET]);
@@ -83,10 +83,10 @@ describe ('#reCaptchaIOValidator', function () {
             });
     });
 
-    test ('should reject with with validation result `result` set to `false` when `response` is missing', () => {
+    test ('should resolve with with validation result `result` set to `false` when `response` is missing', () => {
         expect.assertions(4);
         return reCaptchaIOValidator(null, {secret: recaptchaKeys.secretKey})
-            .catch(({result, value, messages}) => {
+            .then(({result, value, messages}) => {
                 expect(result).toEqual(false);
                 expect(messages.length).toEqual(1);
                 expect(messages[0]).toEqual(messagesTemplatesForTests[MISSING_INPUT_RESPONSE]);
@@ -94,10 +94,10 @@ describe ('#reCaptchaIOValidator', function () {
             });
     });
 
-    test ('should reject with with validation result `result` set to `false` when `secret` is missing', () => {
+    test ('should resolve with with validation result `result` set to `false` when `secret` is missing', () => {
         expect.assertions(4);
         return reCaptchaIOValidator(null, {response: 'hello-world'})
-            .catch(({result, value, messages}) => {
+            .then(({result, value, messages}) => {
                 expect(result).toEqual(false);
                 expect(messages.length).toEqual(1);
                 expect(messages[0]).toEqual(messagesTemplatesForTests[MISSING_INPUT_SECRET]);

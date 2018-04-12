@@ -5,7 +5,10 @@
 
 # fjl-validator-recaptcha
 ReCaptchaV2 Validator (for backend (nodejs)).
-
+**Recommendation:**  If you're validating forms on the backend and require recaptchaV2 validation try 
+    [https://www.npmjs.com/package/fjl-input-filter](https://www.npmjs.com/package/fjl-input-filter)
+    together with fjl-validator-recaptcha.
+    
 ## In this readme:
 - [Importing/Including](#importing-including)
 - [Usage](#usage)
@@ -16,20 +19,23 @@ ReCaptchaV2 Validator (for backend (nodejs)).
 - [License](#license)
 
 ## Importing/including:
-Currently only es6 import is available though you can always require 'babel-register'
-at the top of your page to use the module (cjs exported version coming shortly) or you can also build 
-your sources which should build the module into the results.
+
+### Es6 import
+```
+import reCaptchaValidator from 'fjl-validator-recaptcha';
+```
+
+### Common-js modules
+```
+const {reCaptchaValidator} = require('fjl-validator-recaptcha');
+```
 
 ## Usage:
-The library exports several methods but most notably `reCaptchaValidator` and `reCaptchaValidatorV2` are usually the 
+The library exports several methods but most notably `reCaptchaValidator` and `reCaptchaValidatorV2` are the 
 ones you'll need.
-`reCaptchaValidator` is curried and takes `options` parameter first and `value` parameter second.
-`reCaptchaValidatorV2` takes the `value` parameter first and `options` one second (good for the non-functional-programming-style initiates) 
+- `reCaptchaValidator` is curried and takes `options` parameter first and `value` parameter second.
+- `reCaptchaValidatorV2` takes the `value` parameter first and `options` one second (good for the non-functional-programming-style initiates) 
 (though note: this version is also curried).
-
-### Callback based:
-For callback based usage adapt the "Promised based" examples listed below replacing `reCaptchaValidator` with
- `reCaptchaValidator$` (which is the callback based, un-curried version of `reCaptchaValidator`). 
 
 ### Promised based:
 #### On backend:
@@ -51,14 +57,21 @@ router.post('/test-recaptcha-validator', (req, res) => {
         })
         .then(
             // Send back result of validation
-            result => res.json(result),  // {result {Boolean}, messages {Array}}
+            (result, errorCodes) => {
+                // Customize data to send back based on whether `result.result` is `true` or `false`
+                return res.json(result); // {result {Boolean}, messages {Array}}
+            },  
             
-            // Else, if rejection of promise, send back result of validation
-            // And errorCodes for user
+            // Else, some other error occurred when attempting to pull of recaptcha validation (network down etc.)
+            // send appropriate message to user here
             (result, errorCodes) => res.json({result: result, errorCodes})
         );
 });
 ```
+
+### Callback based:
+For callback based usage adapt the "Promised based" examples listed above with `reCaptchaValidator` replaced with
+ `reCaptchaValidator$` (callback based, un-curried version). 
 
 **Overriding error messages:**
 ```
@@ -111,11 +124,13 @@ router.post('/some-form-endpoint', (req, res) =>
     // Validate recaptcha before validating your form or as part of validating your form
     // ...
     return myReCaptchaValidator({secret, response: req.body['g-recaptcha-response']})
-        .then(() => {
-            // Handle success of form/re-captcha submission 
+        .then((result, errorCodes) => {
+            // Handle success or failure of form/re-captcha submission 
             // Return appropriate message(s) to the client
             res.json(...);
         })
+        // Else, some other error occurred (network down etc.)
+        // handle error message(s) for user or return the raw (internally customezed) error messages
         .catch((result, errorCodes) => {
             // Return appropriate message(s) to the client
             res.json(...);
@@ -173,7 +188,10 @@ fetch('/validate-recaptcha', {
         else {
             // Show success message to user
         }
-    );
+    },
+    (result) => {
+        // Else some other error occurred (network down etc.).  Handle them/it here.
+    });
 ```
 
 ## Pre-Requisites/Caveats
@@ -211,4 +229,4 @@ team for doing `always true` (response from recaptcha service) testing.
 - reCaptchaV2 backend docs: https://developers.google.com/recaptcha/docs/verify
 
 ## License:
-BSD 3 Clause ('./LICENSE' file included in repo).
+BSD 3 Clause

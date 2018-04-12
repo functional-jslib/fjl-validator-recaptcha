@@ -162,7 +162,7 @@ export const
             messages.push(getErrorMessageByKey(options, MISSING_INPUT_RESPONSE, value));
         }
         if (messages.length) {
-            reject(toValidationResult({result: false, messages}));
+            resolve(toValidationResult({result: false, messages}));
             return; // Exiting explicitly here due to function being able to be used in callback style (old-style)
         }
 
@@ -220,7 +220,7 @@ export const
                     // Set failure results
                     validationResult.result = false;
                     validationResult.messages = messages;
-                    reject(validationResult, nonEmptyErrorCodes);
+                    resolve(validationResult, nonEmptyErrorCodes);
                 });
             });
         request.on('error', err => {
