@@ -185,7 +185,7 @@ makeReCaptchaRequest$ = exports.makeReCaptchaRequest$ = function makeReCaptchaRe
         messages.push((0, _fjlValidator.getErrorMsgByKey)(options, MISSING_INPUT_RESPONSE, value));
     }
     if (messages.length) {
-        reject((0, _fjlValidator.toValidationResult)({ result: false, messages: messages }));
+        resolve((0, _fjlValidator.toValidationResult)({ result: false, messages: messages }));
         return; // Exiting explicitly here due to function being able to be used in callback style (old-style)
     }
 
@@ -246,7 +246,7 @@ makeReCaptchaRequest$ = exports.makeReCaptchaRequest$ = function makeReCaptchaRe
             // Set failure results
             validationResult.result = false;
             validationResult.messages = messages;
-            reject(validationResult, nonEmptyErrorCodes);
+            resolve(validationResult, nonEmptyErrorCodes);
         });
     });
     request.on('error', function (err) {

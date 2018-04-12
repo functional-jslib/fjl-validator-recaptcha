@@ -47,26 +47,26 @@
 <a href="http://badge.fury.io/gh/functional-jslib%2Ffjl"><img src="https://badge.fury.io/gh/functional-jslib%2Ffjl.svg" alt="GitHub version"></a>
 <a href="http://badge.fury.io/js/fjl-validator-recaptcha"><img src="https://badge.fury.io/js/fjl-validator-recaptcha.svg" alt="NPM version"></a>
 <a href="https://david-dm.org/functional-jslib/fjl-validator-recaptcha"><img src="https://david-dm.org/functional-jslib/fjl-validator-recaptcha.png" alt="Dependencies"></a></p>
-<h1>fjl-validator-recaptcha</h1><p>ReCaptchaV2 Validator (for backend (nodejs)).</p>
+<h1>fjl-validator-recaptcha</h1><p>ReCaptchaV2 Validator (for backend (nodejs)).
+<strong>Recommendation:</strong>  If you're validating forms on the backend and require recaptchaV2 validation try 
+    <a href="https://www.npmjs.com/package/fjl-input-filter">https://www.npmjs.com/package/fjl-input-filter</a>
+    together with fjl-validator-recaptcha.</p>
 <h2>In this readme:</h2><ul>
 <li><a href="#importing-including">Importing/Including</a></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#usage">Docs</a></li>
-<li><a href="#pre-requisites">Pre-Requisites</a></li>
+<li><a href="#pre-requisites-caveats">Pre-Requisites/Caveats</a></li>
 <li><a href="#development">Development</a></li>
 <li><a href="#resources">Resources</a></li>
 <li><a href="#license">License</a></li>
 </ul>
-<h2>Importing/including:</h2><p>Currently only es6 import is available though you can always require 'babel-register'
-at the top of your page to use the module (cjs exported version coming shortly) or you can also build 
-your sources which should build the module into the results.</p>
-<h2>Usage:</h2><p>The library exports several methods but most notably <code>reCaptchaValidator</code> and <code>reCaptchaValidatorV2</code> are usually the 
-ones you'll need.
-<code>reCaptchaValidator</code> is curried and takes <code>options</code> parameter first and <code>value</code> parameter second.
-<code>reCaptchaValidatorV2</code> takes the <code>value</code> parameter first and <code>options</code> one second (good for the non-functional-programming-style initiates) 
-(though note: this version is also curried).</p>
-<h3>Callback based:</h3><p>For callback based usage adapt the &quot;Promised based&quot; examples listed below replacing <code>reCaptchaValidator</code> with
- <code>reCaptchaValidator$</code> (which is the callback based, un-curried version of <code>reCaptchaValidator</code>). </p>
+<h2>Importing/including:</h2><h3>Es6 import</h3><pre class="prettyprint source"><code>import reCaptchaValidator from 'fjl-validator-recaptcha';</code></pre><h3>Common-js modules</h3><pre class="prettyprint source"><code>const {reCaptchaValidator} = require('fjl-validator-recaptcha');</code></pre><h2>Usage:</h2><p>The library exports several methods but most notably <code>reCaptchaValidator</code> and <code>reCaptchaValidatorV2</code> are the 
+ones you'll need.</p>
+<ul>
+<li><code>reCaptchaValidator</code> is curried and takes <code>options</code> parameter first and <code>value</code> parameter second.</li>
+<li><code>reCaptchaValidatorV2</code> takes the <code>value</code> parameter first and <code>options</code> one second (good for the non-functional-programming-style initiates) 
+(though note: this version is also curried).</li>
+</ul>
 <h3>Promised based:</h3><h4>On backend:</h4><pre class="prettyprint source"><code>import {recaptchValidator} from 'fjl-validator-recaptcha';
 
 // Somewhere in application
@@ -83,13 +83,18 @@ router.post('/test-recaptcha-validator', (req, res) => {
         })
         .then(
             // Send back result of validation
-            result => res.json(result),  // {result {Boolean}, messages {Array}}
+            (result, errorCodes) => {
+                // Customize data to send back based on whether `result.result` is `true` or `false`
+                return res.json(result); // {result {Boolean}, messages {Array}}
+            },  
 
-            // Else, if rejection of promise, send back result of validation
-            // And errorCodes for user
+            // Else, some other error occurred when attempting to pull of recaptcha validation (network down etc.)
+            // send appropriate message to user here
             (result, errorCodes) => res.json({result: result, errorCodes})
         );
-});</code></pre><p><strong>Overriding error messages:</strong></p>
+});</code></pre><h3>Callback based:</h3><p>For callback based usage adapt the &quot;Promised based&quot; examples listed above with <code>reCaptchaValidator</code> replaced with
+ <code>reCaptchaValidator$</code> (callback based, un-curried version). </p>
+<p><strong>Overriding error messages:</strong></p>
 <pre class="prettyprint source"><code>import {
     INVALID_SUBMISSION,
     MISSING_INPUT_SECRET,
@@ -139,11 +144,13 @@ router.post('/some-form-endpoint', (req, res) =>
     // Validate recaptcha before validating your form or as part of validating your form
     // ...
     return myReCaptchaValidator({secret, response: req.body['g-recaptcha-response']})
-        .then(() => {
-            // Handle success of form/re-captcha submission 
+        .then((result, errorCodes) => {
+            // Handle success or failure of form/re-captcha submission 
             // Return appropriate message(s) to the client
             res.json(...);
         })
+        // Else, some other error occurred (network down etc.)
+        // handle error message(s) for user or return the raw (internally customezed) error messages
         .catch((result, errorCodes) => {
             // Return appropriate message(s) to the client
             res.json(...);
@@ -186,10 +193,13 @@ fetch('/validate-recaptcha', {
         else {
             // Show success message to user
         }
-    );</code></pre><h2>Pre-Requisites</h2><ul>
+    },
+    (result) => {
+        // Else some other error occurred (network down etc.).  Handle them/it here.
+    });</code></pre><h2>Pre-Requisites/Caveats</h2><h3>Node versions:</h3><ul>
 <li>node v6.12+</li>
 </ul>
-<h2>Tested:</h2><p>Tested on node v6.12 and v8.9</p>
+<h3>Tested on:</h3><p>Tested on node v6.12 and v8.9</p>
 <h2>Docs</h2><p><strong>JSDocs format:</strong><br><a href="https://functional-jslib.github.io/fjl-validator-recaptcha/">https://functional-jslib.github.io/fjl-validator-recaptcha/</a></p>
 <h2>Members overview:</h2><p>This is just an overview of members included in library.  For in-depth docs view 
 <a href="https://functional-jslib.github.io/fjl-validator-recaptcha/">jsdocs</a> version of docs instead:</p>
@@ -213,7 +223,7 @@ team for doing <code>always true</code> (response from recaptcha service) testin
 <li>reCaptchaV2 frontend docs: https://developers.google.com/recaptcha/docs/display</li>
 <li>reCaptchaV2 backend docs: https://developers.google.com/recaptcha/docs/verify</li>
 </ul>
-<h2>License:</h2><p>BSD 3 Clause ('./LICENSE' file included in repo).</p></article>
+<h2>License:</h2><p>BSD 3 Clause</p></article>
     </section>
 
 
@@ -230,7 +240,7 @@ team for doing <code>always true</code> (response from recaptcha service) testin
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 04 2018 15:11:41 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Apr 12 2018 16:46:07 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
