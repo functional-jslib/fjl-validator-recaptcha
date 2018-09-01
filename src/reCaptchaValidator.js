@@ -13,42 +13,6 @@ import {defineEnumProps$} from 'fjl-mutable';
 import {getErrorMsgByKey as getErrorMessageByKey, toValidationResult, toValidationOptions} from 'fjl-validator';
 import {assign, assignDeep, isEmpty, curry, flip} from 'fjl';
 
-/*-------------------
- * VIRTUAL TYPES
- * @note 'reCaptcha-v2 backend service' is the backend validation service used to validate, from a backend,
- *  the frontend validation result (for reCaptchaV2).
- *-------------------*/
-
-/**
- * @typedef {Object.<String, (Function|String)>} MessageTemplates
- * Message Templates object to get error messages from error codes received from the reCaptcha-v2 'backend' service.
- */
-
-/**
- * @typedef {Object.<String, *>} RequestOptions
- * Options used to make request to google's reCaptcha-v2 backend-validation service.
- */
-
-/**
- * @typedef {Object.<String, *>} ReCaptchaValidatorOptions
- * @property requestOptions {RequestOptions}
- * @property messageTemplates {MessageTemplates}
- */
-
-/**
- * @typedef {Object.<String, String>} ReCaptchaTestValue
- * @property {String} secret - The 'secret' key sent to the google reCaptcha-v2 backend service.
- * @property {String} response - The 'response' string sent to the reCaptcha-v2 backend service.
- * @property {String} [remoteip=undefined] - Optional.  The 'remoteip' string sent to the reCaptcha-v2 backend-validation service.
- */
-
-/**
- * @typedef {Object.<String, *>} ValidationResult
- * @property {Boolean} result - Result of validators validation (`true` or `false`).
- * @property {Array.<String>} messages - Validation failure messages;  Reasons why tested value(s) didn't pass validation.
- * @type {string}
- */
-
 export const
 
     /**
@@ -295,3 +259,39 @@ export const
      * @curried - Is curried.
      */
     reCaptchaValidatorV2 = curry(flip(reCaptchaIOValidator$));
+
+/*-------------------
+ * VIRTUAL TYPES
+ * @note 'reCaptcha-v2 backend service' is the backend validation service used to validate, from a backend,
+ *  the frontend validation result (for reCaptchaV2).
+ *-------------------*/
+
+/**
+ * @typedef {Object.<String, (Function|String)>} MessageTemplates
+ * Message Templates object to get error messages from error codes received from the reCaptcha-v2 'backend' service.
+ */
+
+/**
+ * @typedef {Object.<String, *>} RequestOptions
+ * Options used to make request to google's reCaptcha-v2 backend-validation service.
+ */
+
+/**
+ * @typedef {Object.<String, *>} ReCaptchaValidatorOptions
+ * @property requestOptions {RequestOptions}
+ * @property messageTemplates {MessageTemplates}
+ */
+
+/**
+ * @typedef {Object.<String, String>} ReCaptchaTestValue
+ * @property {String} secret - The 'secret' key sent to the google reCaptcha-v2 backend service.
+ * @property {String} response - The 'response' string sent to the reCaptcha-v2 backend service.
+ * @property {String} [remoteip=undefined] - Optional.  The 'remoteip' string sent to the reCaptcha-v2 backend-validation service.
+ */
+
+/**
+ * @typedef {Object.<String, *>} ValidationResult
+ * @property {Boolean} result - Result of validators validation (`true` or `false`).
+ * @property {Array.<String>} messages - Validation failure messages;  Reasons why tested value(s) didn't pass validation.
+ * @type {string}
+ */

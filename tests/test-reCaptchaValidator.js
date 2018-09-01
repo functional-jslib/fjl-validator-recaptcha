@@ -107,7 +107,6 @@ describe ('#reCaptchaIOValidator', function () {
 
 });
 
-
 // Utility function for dumping frames from `puppeteer`'s `mainFrame()` result
 // dumpFrameTree(page.mainFrame(), '');
 // function dumpFrameTree(frame, indent) {
