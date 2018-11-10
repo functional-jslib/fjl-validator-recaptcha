@@ -93,7 +93,7 @@ UNKNOWN_ERROR = exports.UNKNOWN_ERROR = 'unknown-error',
  */
 toReCaptchaTestValue = exports.toReCaptchaTestValue = function toReCaptchaTestValue(incoming) {
     var outgoing = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    return (0, _fjl.assign)((0, _fjlMutable.defineEnumProps$)([[String, 'secret'], [String, 'remoteip'], [String, 'response']], outgoing), incoming);
+    return (0, _fjl.assign)((0, _fjlMutable.defineEnumProps)([[String, 'secret'], [String, 'remoteip'], [String, 'response']], outgoing), incoming);
 },
 
 
@@ -111,7 +111,7 @@ toReCaptchaValidatorOptions = exports.toReCaptchaValidatorOptions = function toR
     var outgoing = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     return (
         // @note `toValidationOptions` sets getter and setter for 'messageTemplates', 'valueObscured', and `valueObscurer`
-        (0, _fjl.assignDeep)((0, _fjlMutable.defineEnumProps$)([[Object, 'requestOptions', {}]], (0, _fjlValidator.toValidationOptions)(outgoing)), {
+        (0, _fjl.assignDeep)((0, _fjlMutable.defineEnumProps)([[Object, 'requestOptions', {}]], (0, _fjlValidator.toValidationOptions)(outgoing)), {
             requestOptions: {
                 host: 'www.google.com',
                 path: '/recaptcha/api/siteverify',

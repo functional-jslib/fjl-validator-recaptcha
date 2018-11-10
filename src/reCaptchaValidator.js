@@ -9,7 +9,7 @@
  */
 import https from 'https';
 import querystring from 'querystring';
-import {defineEnumProps$} from 'fjl-mutable';
+import {defineEnumProps} from 'fjl-mutable';
 import {getErrorMsgByKey as getErrorMessageByKey, toValidationResult, toValidationOptions} from 'fjl-validator';
 import {assign, assignDeep, isEmpty, curry, flip} from 'fjl';
 
@@ -67,7 +67,7 @@ export const
      *  containing anything other than values of type String.
      */
     toReCaptchaTestValue = (incoming, outgoing = {}) =>
-        assign(defineEnumProps$([
+        assign(defineEnumProps([
             [String, 'secret'],
             [String, 'remoteip'],
             [String, 'response']
@@ -84,7 +84,7 @@ export const
     toReCaptchaValidatorOptions = (options, outgoing = {}) =>
          // @note `toValidationOptions` sets getter and setter for 'messageTemplates', 'valueObscured', and `valueObscurer`
         assignDeep(
-            defineEnumProps$([[Object, 'requestOptions', {}]], toValidationOptions(outgoing)),
+            defineEnumProps([[Object, 'requestOptions', {}]], toValidationOptions(outgoing)),
             {
                 requestOptions: {
                     host: 'www.google.com',

@@ -3,5 +3,6 @@ dist: trusty
 before_script: yarn global add forever
 language: node_js
 node_js:
-  - 6.12
-  - 8.9
+  - 8
+  - 9
+  - 10

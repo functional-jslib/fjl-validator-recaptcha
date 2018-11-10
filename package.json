@@ -1,6 +1,6 @@
 {
   "name": "fjl-validator-recaptcha",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "main": "./dist/cjs/reCaptchaValidator.js",
   "module": "./src/reCaptchaValidator.js",
   "license": "BSD-3-Clause",
@@ -17,9 +17,9 @@
     "eslint": "eslint"
   },
   "dependencies": {
-    "fjl": "^1.3.3",
-    "fjl-mutable": "^0.16.5",
-    "fjl-validator": "^0.6.17"
+    "fjl": "1.6.2",
+    "fjl-mutable": "^0.18.3",
+    "fjl-validator": "^0.7.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
