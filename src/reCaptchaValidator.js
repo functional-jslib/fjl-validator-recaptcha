@@ -9,9 +9,8 @@
  */
 import https from 'https';
 import querystring from 'querystring';
-import {defineEnumProps} from 'fjl-mutable';
 import {getErrorMsgByKey as getErrorMessageByKey, toValidationResult, toValidationOptions} from 'fjl-validator';
-import {assign, assignDeep, isEmpty, curry, flip} from 'fjl';
+import {assign, assignDeep, isEmpty, curry, flip, defineEnumProps} from 'fjl';
 
 export const
 

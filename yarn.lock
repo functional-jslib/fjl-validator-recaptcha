@@ -2377,20 +2377,19 @@ first-chunk-stream@^1.0.0:
   resolved "https://registry.yarnpkg.com/first-chunk-stream/-/first-chunk-stream-1.0.0.tgz#59bfb50cd905f60d7c394cd3d9acaab4e6ad934e"
   integrity sha1-Wb+1DNkF9g18OUzT2ayqtOatk04=
 
-fjl-mutable@^0.18.2, fjl-mutable@^0.18.3:
+fjl-mutable@^0.18.3:
   version "0.18.3"
   resolved "https://registry.yarnpkg.com/fjl-mutable/-/fjl-mutable-0.18.3.tgz#4034d6cff55d4f9d827ef2bc1b49e7e16cfe0161"
   integrity sha512-KPSN0dx9PpqpPHMIdtIeCfV2R8aPBw5mgNOp2sCWVHRGqTwh93CKf6ZFe5JWkvZWHqfhvO1bHkoLYX4ztEkMUg==
   dependencies:
     fjl "^1.6.2"
 
-fjl-validator@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/fjl-validator/-/fjl-validator-0.7.0.tgz#277ddb090435cd9a48da10649bee9d4f41e17c8c"
-  integrity sha512-sLVIlA0t/ilmSwJ0h2TpHpa4lzTfQKjQzrJU9xmsGudemf3AftbwGKB5/lJB7eGQ8PiJWvv9Hfyqt/r3zF39Cg==
+fjl-validator@^0.7.10:
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/fjl-validator/-/fjl-validator-0.7.10.tgz#ea71ed7fa7a917e3ad2f2ca37ecce91daaa963b3"
+  integrity sha512-n4t831cZP2syNJFqP0uZ3tlmtPrwT5PnG/uAv/rtWPaWN8gdqisMpROnvARuvx3IMOahUp/rpb1Ws8oRU83BYw==
   dependencies:
-    fjl "^1.6.2"
-    fjl-mutable "^0.18.2"
+    fjl "^1.11.0"
 
 fjl@^1.11.0:
   version "1.11.0"
