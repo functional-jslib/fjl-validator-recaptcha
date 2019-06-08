@@ -3499,13 +3499,6 @@ fined@^1.0.1:
     object.pick "^1.2.0"
     parse-filepath "^1.0.1"
 
-fjl-mutable@^0.18.3:
-  version "0.18.3"
-  resolved "https://registry.yarnpkg.com/fjl-mutable/-/fjl-mutable-0.18.3.tgz#4034d6cff55d4f9d827ef2bc1b49e7e16cfe0161"
-  integrity sha512-KPSN0dx9PpqpPHMIdtIeCfV2R8aPBw5mgNOp2sCWVHRGqTwh93CKf6ZFe5JWkvZWHqfhvO1bHkoLYX4ztEkMUg==
-  dependencies:
-    fjl "^1.6.2"
-
 fjl-validator@^0.7.11:
   version "0.7.11"
   resolved "https://registry.yarnpkg.com/fjl-validator/-/fjl-validator-0.7.11.tgz#bd7192cd7bb1234223d37448989de7da292ec902"
@@ -3513,7 +3506,7 @@ fjl-validator@^0.7.11:
   dependencies:
     fjl "^1.11.3"
 
-fjl@^1.11.3, fjl@^1.6.2:
+fjl@^1.11.3:
   version "1.11.3"
   resolved "https://registry.yarnpkg.com/fjl/-/fjl-1.11.3.tgz#10fefdaa5a342067961ff91fb90db84c81c2b13a"
   integrity sha512-1lAcRIw24SPuKMwqJ424In5GshojKIhJ+FkYp2EqmvMXXS3TDKf6f1VzE5eQGpHqnt8tLZnJ9gzGETvlIhcJMg==

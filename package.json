@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "fjl": "^1.11.3",
-    "fjl-mutable": "^0.18.3",
     "fjl-validator": "^0.7.11"
   },
   "devDependencies": {
