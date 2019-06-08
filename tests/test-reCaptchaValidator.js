@@ -9,7 +9,7 @@ import {
 import {log, runHasPropTypes} from './utils';
 import packageJson from '../package.json';
 import puppeteer from 'puppeteer';
-import chromium from 'chromium';
+// import chromium from 'chromium';
 
 jest.setTimeout(34000);
 
@@ -41,7 +41,7 @@ describe ('#reCaptchaIOValidator', function () {
         '`g-recaptcha-response` are well-formed', async (done) => {
         expect.assertions(3);
         const anchorName = '.rc-anchor-content',
-            browser = await puppeteer.launch({executablePath: chromium.path}),
+            browser = await puppeteer.launch(/*{executablePath: chromium.path}*/),
             page = await browser.newPage();
         await page.setUserAgent(browserUserAgentString);
         await page.goto(`http://localhost:${mockServerPort}/test-recaptcha-validator.html`);
