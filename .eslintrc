@@ -11,8 +11,8 @@
 {
 
   "parserOptions": {
+    "ecmaVersion": 2018,
     "sourceType": "module",
-    "ecmaVersion": 6,
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
     }
@@ -20,8 +20,20 @@
 
   "env": {
     "node":       true,
+    "browser":    true,
     "es6":        true,
-    "jest":       true
+    "jest":       true,
+    "jasmine":    true
+  },
+
+  /** ---------------------------------------------------------------------------------------------------------------------
+   * Globals:
+   * --------------------------------------------------------------------------------------------------------------------- **/
+
+  "globals": {
+    "fjl":      true,
+    "it":       true,
+    "describe": true
   },
 
   /** --------------------------------------------------------------------------------------------------------------------
@@ -37,7 +49,7 @@
      * The following rules point out areas where you might have made mistakes.
      * ------------------------------------------------------------------------------------------------------------------- **/
 
-    "comma-dangle":             2,  // - disallow or enforce trailing commas
+    "comma-dangle":             0,  // - disallow or enforce trailing commas
     "no-cond-assign":           2,  // - disallow assignment in conditional expressions
     "no-console":               0,  // - disallow use of console (off by default in the node environment)
     "no-constant-condition":    0,  // - disallow use of constant expressions in conditions
@@ -109,11 +121,11 @@
     "no-return-assign":       2,  // - disallow use of assignment in return statement
     "no-script-url":          0,  // - disallow use of javascript: urls.
     "no-self-compare":        2,  // - disallow comparisons where both sides are exactly the same (off by default)
-    "no-sequences":           2,  // - disallow use of comma operator
+    "no-sequences":           0,  // - disallow use of comma operator
     "no-throw-literal":       2,  // - restrict what can be thrown as an exception (off by default)
     "no-unused-expressions":  0,  // - disallow usage of expressions in statement position ** Note ** Chai's functional style triggers this error.  Off for now.
     "no-void":                2,  // - disallow use of void operator (off by default)
-    "no-warning-comments":    0,  // - disallow usage of configurable warning terms in comments - e.g. TODO or FIXME (off by default)
+    "no-warning-comments":    0,  // - disallow usage of configurable warning terms in comments.
     "no-with":                2,  // - disallow use of the with statement
     "radix":                  2,  // - require use of the second argument for parseInt() (off by default)
     "vars-on-top":            0,  // - requires to declare all vars on top of their containing scope (off by default)

@@ -4,8 +4,6 @@
  * @standalone
  */
 
-require('babel-register');
-
 // If 'NODE_ENV' not set, set it
 if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'dev';
@@ -21,8 +19,7 @@ if (isDevEnv) {
 // Preliminaries
 const
     {appSessionSecret, recaptchaSecret} = process.env,
-    {mockServerPort} =   require('../package'),
-    port =          mockServerPort,
+    {mockServerPort: port} =   require('../package'),
     express =       require('express'),
     helmet =        require('helmet'),
     session =       require('express-session'),
@@ -31,9 +28,9 @@ const
     router =        new express.Router(),
     app = express();
 
-const {log, jsonClone} = require('./utils');
+const {log, jsonClone} = require('fjl');
 
-const {reCaptchaIOValidator} = require('../src/reCaptchaValidator');
+const {reCaptchaIOValidator} = require('../dist/cjs/fjlReCaptchaValidator');
 
 // Security features
 // @see https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
@@ -88,8 +85,3 @@ app.use(router);
 app.listen(port, () => {
     console.log('\nListening on port:' + port);
 });
-
-// module.exports = {
-//     app,
-//     router
-// };

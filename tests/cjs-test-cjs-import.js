@@ -1,4 +1,4 @@
-const instance = require('../dist/cjs/reCaptchaValidator');
+const instance = require('../dist/cjs/fjlRecaptchaValidator');
 
 describe ('fjl-validator-recaptcha', function () {
     test ('should have reached this point with no errors', function () {

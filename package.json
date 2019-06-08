@@ -1,48 +1,64 @@
 {
   "name": "fjl-validator-recaptcha",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "main": "./dist/cjs/reCaptchaValidator.js",
   "module": "./src/reCaptchaValidator.js",
   "license": "BSD-3-Clause",
   "scripts": {
-    "pre-publish": "yarn build && yarn docs",
-    "build": "gulp clean && gulp build && yarn test-builds",
-    "docs": "gulp jsdoc",
-    "start": "forever start tests/mock-server.js",
+    "build": "gulp docs build && npm run test-builds",
+    "test-builds": "jest --testMatch **/tests/*-test-*.js",
+    "test": "jest --testMatch **/tests/test-*.js",
+    "eslint": "gulp eslint",
+    "readme": "gulp readme",
+    "docs": "gulp docs",
+    "start": "forever --minUptime 34000 start tests/mock-server.js",
     "stop": "forever stop tests/mock-server.js",
     "pretest": "yarn start",
-    "test": "jest --testMatch **/tests/test-*.js",
-    "test-builds": "jest --testMatch **/tests/*-test-*.js",
-    "posttest": "yarn stop",
-    "eslint": "eslint"
+    "posttest": "yarn stop"
   },
   "dependencies": {
-    "fjl": "^1.11.0",
+    "fjl": "^1.11.3",
     "fjl-mutable": "^0.18.3",
-    "fjl-validator": "^0.7.10"
+    "fjl-validator": "^0.7.11"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-jest": "^22.1.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-external-helpers": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/plugin-syntax-bigint": "^7.4.4",
+    "@babel/plugin-syntax-object-rest-spread": "^7.2.0",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^24.8.0",
+    "babel-plugin-add-module-exports": "^1.0.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015-rollup": "^3.0.0",
     "babel-register": "^6.26.0",
-    "body-parser": "^1.18.2",
-    "compression": "^1.7.1",
-    "dotenv": "^4.0.0",
-    "express": "^4.16.2",
-    "express-session": "^1.15.6",
-    "forever": "^0.15.3",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^7.0.1",
-    "gulp-eslint": "^4.0.2",
-    "gulp-jsdoc3": "^1.0.1",
-    "helmet": "^3.9.0",
-    "jest": "^22.1.4",
-    "lazypipe": "^1.0.1",
-    "puppeteer": "^1.0.0"
+    "body-parser": "^1.19.0",
+    "chromium": "^2.1.0",
+    "compression": "^1.7.4",
+    "del": "^4.1.1",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.16.1",
+    "forever": "^1.0.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-eslint": "^5.0.0",
+    "gulp-jsdoc3": "^2.0.0",
+    "helmet": "^3.18.0",
+    "jest": "^24.8.0",
+    "lazypipe": "^1.0.2",
+    "puppeteer": "^1.17.0",
+    "rollup": "^1.14.4",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-node-resolve": "^5.0.1",
+    "tui-jsdoc-template": "^1.2.2"
   },
   "recaptchaKeys": {
     "siteKey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
@@ -56,31 +72,83 @@
     "testEnvironment": "node"
   },
   "buildConfig": {
-    "inputModuleName": "reCaptchaValidator",
-    "inputFilePath": "./src/reCaptchaValidator.js",
+    "inputModuleName": "fjlRecaptchaValidator",
+    "inputFilePath": "./src/fjlRecaptchaValidator.js",
     "outputFileName": "fjl-validator-recaptcha.js",
+    "outputFileNameMjs": "fjl-validator-recaptcha.mjs",
+    "outputFileNameMin": "fjl-validator-recaptcha.min.js",
     "srcsGlob": "./src/**/*.js",
     "paths": {
       "dist": "./dist",
       "docs": "./docs"
     },
     "folderNames": {
-      "cjs": "cjs"
+      "amd": "amd",
+      "cjs": "cjs",
+      "iife": "iife",
+      "umd": "umd",
+      "es6Module": "es6-module",
+      "package": "package"
     },
-    "cjsRollup": {
-      "babelPlugin": {
+    "es6ModuleRollup": {
+      "config": {
+        "input": "./src/fjlRecaptchaValidator.js",
+        "external": []
+      },
+      "write": {
+        "file": "./dist/es6-module/fjl-validator-recaptcha.js",
+        "format": "es",
+        "sourcemap": true
+      }
+    },
+    "buildCjsOptions": {
+      "babel": {
         "babelrc": false,
         "presets": [
-          [
-            "env",
-            {
-              "modules": false
-            }
-          ]
+          "@babel/preset-env"
         ],
         "plugins": [
-          "babel-plugin-add-module-exports"
+          "@babel/plugin-transform-modules-commonjs"
+        ],
+        "exclude": [
+          "node_modules/**/*"
         ]
+      }
+    },
+    "uglifyOptions": {},
+    "readme": {
+      "files": [
+        "./markdown-fragments/readme-header.md",
+        "./markdown-fragments/sections/sections.md",
+        "./markdown-fragments/sections/requirements.md",
+        "./markdown-fragments/sections/getting-started.md",
+        "./markdown-fragments/sections/docs.md",
+        "./markdown-fragments-generated/module-and-member-list.md",
+        "./markdown-fragments/sections/docs/docs-footer.md",
+        "./markdown-fragments/sections/development.md",
+        "./markdown-fragments/sections/license.md",
+        "./markdown-fragments/sections/resources.md",
+        "./markdown-fragments/sections/changelog.md"
+      ]
+    },
+    "jsdoc": {
+      "opts": {
+        "template": "node_modules/tui-jsdoc-template",
+        "encoding": "utf8",
+        "destination": "./docs/",
+        "recurse": true,
+        "templates": {
+          "useCollapsibles": false
+        }
+      },
+      "templates": {
+        "logo": {
+          "url": "http://elycruz.com/fjl-logo.gif",
+          "width": "144px",
+          "height": "55px",
+          "link": "https://github.com/functional-jslib/fjl-recaptcha-validator"
+        },
+        "footerText": "functional-jslib - BSD 3.0 License - JsDoc Template -> tui-jsdoc-template - by NHN Entertainment - Frontend Development Lab"
       }
     }
   },
