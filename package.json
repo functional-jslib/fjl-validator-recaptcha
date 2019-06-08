@@ -1,6 +1,6 @@
 {
   "name": "fjl-validator-recaptcha",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "main": "./dist/cjs/reCaptchaValidator.js",
   "module": "./src/reCaptchaValidator.js",
   "license": "BSD-3-Clause",
@@ -72,8 +72,8 @@
     "testEnvironment": "node"
   },
   "buildConfig": {
-    "inputModuleName": "fjlRecaptchaValidator",
-    "inputFilePath": "./src/fjlRecaptchaValidator.js",
+    "inputModuleName": "fjlReCaptchaValidator",
+    "inputFilePath": "./src/fjlReCaptchaValidator.js",
     "outputFileName": "fjl-validator-recaptcha.js",
     "outputFileNameMjs": "fjl-validator-recaptcha.mjs",
     "outputFileNameMin": "fjl-validator-recaptcha.min.js",
@@ -92,7 +92,7 @@
     },
     "es6ModuleRollup": {
       "config": {
-        "input": "./src/fjlRecaptchaValidator.js",
+        "input": "./src/fjlReCaptchaValidator.js",
         "external": []
       },
       "write": {
