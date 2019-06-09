@@ -41,7 +41,7 @@ describe ('#reCaptchaIOValidator', function () {
         '`g-recaptcha-response` are well-formed', async (done) => {
         expect.assertions(3);
         const anchorName = '.rc-anchor-content',
-            browser = await puppeteer.launch(/*{executablePath: chromium.path}*/),
+            browser = await puppeteer.launch({args: ['--disable-setuid-sandbox', '--no-sandbox'], dumpio: true}),
             page = await browser.newPage();
         await page.setUserAgent(browserUserAgentString);
         await page.goto(`http://localhost:${mockServerPort}/test-recaptcha-validator.html`);
@@ -53,9 +53,9 @@ describe ('#reCaptchaIOValidator', function () {
         await page.waitFor(3000);
         page.on('console', log);
         log('Awaiting response');
-        page.on('response', res => {
+        page.on('response', async res => {
             log('Received response');
-            res.json()
+            await res.json()
                 .then(json => {
                     log('Received json', json);
                     expect(json.result).toEqual(true);
@@ -115,3 +115,8 @@ describe ('#reCaptchaIOValidator', function () {
 //     for (let child of frame.childFrames())
 //         dumpFrameTree(child, indent + '  ');
 // }
+
+process.on('uncaughtException', e => {
+    console.error(e);
+    process.exit(1);
+});
