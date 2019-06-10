@@ -9,7 +9,6 @@ import {
 import {log, runHasPropTypes} from './utils';
 import packageJson from '../package.json';
 import puppeteer from 'puppeteer';
-// import chromium from 'chromium';
 
 jest.setTimeout(34000);
 
@@ -32,7 +31,6 @@ describe ('#toReCaptchaValidatorOptions', function () {
 });
 
 describe ('#reCaptchaIOValidator', function () {
-
     const messagesTemplatesForTests = toReCaptchaValidatorOptions().messageTemplates,
         browserUserAgentString = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
             'Ubuntu Chromium/60.0.3112.113 Chrome/60.0.3112.113 Safari/537.36';
@@ -41,7 +39,7 @@ describe ('#reCaptchaIOValidator', function () {
         '`g-recaptcha-response` are well-formed', async (done) => {
         expect.assertions(3);
         const anchorName = '.rc-anchor-content',
-            browser = await puppeteer.launch({args: ['--disable-setuid-sandbox', '--no-sandbox'], dumpio: true}),
+            browser = await puppeteer.launch({args: ['--disable-setuid-sandbox', '--no-sandbox']}),
             page = await browser.newPage();
         await page.setUserAgent(browserUserAgentString);
         await page.goto(`http://localhost:${mockServerPort}/test-recaptcha-validator.html`);
