@@ -1,6 +1,6 @@
 {
   "name": "fjl-validator-recaptcha",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "main": "./dist/cjs/fjlReCaptchaValidator.js",
   "module": "./src/fjlReCaptchaValidator.js",
   "license": "BSD-3-Clause",
