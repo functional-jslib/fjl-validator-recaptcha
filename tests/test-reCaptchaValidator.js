@@ -3,18 +3,25 @@ import {
     toReCaptchaValidatorOptions,
     toReCaptchaTestValue,
     MISSING_INPUT_SECRET,
-    MISSING_INPUT_RESPONSE,
+    MISSING_INPUT_RESPONSE
 } from '../src/fjlReCaptchaValidator';
 
 import {log, runHasPropTypes} from './utils';
 import packageJson from '../package.json';
 import puppeteer from 'puppeteer';
 
+const {recaptchaKeys, mockServerPort} = packageJson,
+    unhandledHandler = e => {
+        console.error(e);
+        process.exit(1);
+    };
+
+process.on('unhandledRejection', unhandledHandler);
+process.on('uncaughtException', unhandledHandler);
+
 jest.setTimeout(34000);
 
-const {recaptchaKeys, mockServerPort} = packageJson;
-
-describe ('#toReCaptchaTestValue', function () {
+describe('#toReCaptchaTestValue', function () {
     runHasPropTypes([
         [String, 'secret', ['', false]],
         [String, 'remoteip', ['', false]],
@@ -22,7 +29,7 @@ describe ('#toReCaptchaTestValue', function () {
     ], toReCaptchaTestValue());
 });
 
-describe ('#toReCaptchaValidatorOptions', function () {
+describe('#toReCaptchaValidatorOptions', function () {
     [{}, undefined].forEach(value => {
         runHasPropTypes([
             [Object, 'requestOptions', [{}, false]]
@@ -30,12 +37,12 @@ describe ('#toReCaptchaValidatorOptions', function () {
     });
 });
 
-describe ('#reCaptchaIOValidator', function () {
+describe('#reCaptchaIOValidator', function () {
     const messagesTemplatesForTests = toReCaptchaValidatorOptions().messageTemplates,
         browserUserAgentString = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
             'Ubuntu Chromium/60.0.3112.113 Chrome/60.0.3112.113 Safari/537.36';
 
-    test ('should return a "success" ({result: true, ...}) validation result when `secret` and ' +
+    test('should return a "success" ({result: true, ...}) validation result when `secret` and ' +
         '`g-recaptcha-response` are well-formed', async (done) => {
         expect.assertions(3);
         const anchorName = '.rc-anchor-content',
@@ -70,7 +77,7 @@ describe ('#reCaptchaIOValidator', function () {
         done();
     });
 
-    test ('should resolve with with validation result `result` set to `false` when `secret` and `response` are both missing', () => {
+    test('should resolve with with validation result `result` set to `false` when `secret` and `response` are both missing', () => {
         expect.assertions(5);
         return reCaptchaIOValidator(null, {})
             .then(({result, value, messages}) => {
@@ -82,7 +89,7 @@ describe ('#reCaptchaIOValidator', function () {
             });
     });
 
-    test ('should resolve with with validation result `result` set to `false` when `response` is missing', () => {
+    test('should resolve with with validation result `result` set to `false` when `response` is missing', () => {
         expect.assertions(4);
         return reCaptchaIOValidator(null, {secret: recaptchaKeys.secretKey})
             .then(({result, value, messages}) => {
@@ -93,7 +100,7 @@ describe ('#reCaptchaIOValidator', function () {
             });
     });
 
-    test ('should resolve with with validation result `result` set to `false` when `secret` is missing', () => {
+    test('should resolve with with validation result `result` set to `false` when `secret` is missing', () => {
         expect.assertions(4);
         return reCaptchaIOValidator(null, {response: 'hello-world'})
             .then(({result, value, messages}) => {
@@ -114,7 +121,3 @@ describe ('#reCaptchaIOValidator', function () {
 //         dumpFrameTree(child, indent + '  ');
 // }
 
-process.on('uncaughtException', e => {
-    console.error(e);
-    process.exit(1);
-});

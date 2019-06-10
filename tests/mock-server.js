@@ -17,15 +17,14 @@ if (isDevEnv) {
 }
 
 // Preliminaries
-const
-    {appSessionSecret, recaptchaSecret} = process.env,
-    {mockServerPort: port} =   require('../package'),
-    express =       require('express'),
-    helmet =        require('helmet'),
-    session =       require('express-session'),
-    compression =   require('compression'),
-    bodyParser =    require('body-parser'),
-    router =        new express.Router(),
+const {appSessionSecret} = process.env,
+    {mockServerPort: port} = require('../package'),
+    express = require('express'),
+    helmet = require('helmet'),
+    session = require('express-session'),
+    compression = require('compression'),
+    bodyParser = require('body-parser'),
+    router = new express.Router(),
     app = express();
 
 const {log, jsonClone} = require('fjl');
@@ -55,7 +54,7 @@ app.use(bodyParser.json());
 
 // If is development env enable CORS
 if (isDevEnv) {
-    app.use( (req, res, next) => {
+    app.use((req, res, next) => {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         next();

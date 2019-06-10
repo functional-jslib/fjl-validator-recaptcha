@@ -4,6 +4,7 @@
 .idea/workspace.xml
 .idea/encodings.xml
 .test-screenshots/
+.mockserver_pid
 node_modules/
 # misc
 .DS_Store
