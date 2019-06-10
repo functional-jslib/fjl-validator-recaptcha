@@ -209,11 +209,6 @@ Tested on node v6.12 and v8.9
 This is just an overview of members included in library.  For in-depth docs view 
 [jsdocs](https://functional-jslib.github.io/fjl-validator-recaptcha/) version of docs instead:
 - `reCaptchaValidator (options, value)` - Makes an IO Request (returns a promise).  Curried.
-- `reCaptchaIOValidator (options, value)` - Sames `reCaptchaValidator` just explicitly named.  Curried.
-- `reCaptchaValidator$ (options, value, resolve, reject)` - Old style/callback based.  Not curried.
-- `reCaptchaIOValidator$ (options, value)` - Same as `reCaptchaIOValidator` but not curried.
-- `makeReCaptchaRequest$ (options, value, resolve, reject)` - Used by all `reCaptcha*` methods above 
-    (makes the request to recaptchaV2 api).  Not curried.  Old style callback based.
 - `toReCaptchaValidatorOptions (options)` - Returns a normalized `reCaptchaValidatorOptions` object.
 - `toReCaptchaTestValue (options)` - Returns a normalized `reCaptchaValidatorTestValue` object.
 
