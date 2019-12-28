@@ -3457,10 +3457,10 @@ fined@^1.0.1:
     object.pick "^1.2.0"
     parse-filepath "^1.0.1"
 
-fjl-validator@^0.7.13:
-  version "0.7.13"
-  resolved "https://registry.yarnpkg.com/fjl-validator/-/fjl-validator-0.7.13.tgz#292b8fccda8e9f82b6f8009938a194e49f0cec55"
-  integrity sha512-VbT1op0nvSRP0gT17i9OxuEqDlGYAtPjSnqmC68QUaFB2BC61ScrF0r69LKDje9K5tlVSymEMgKnivzD+sE1/A==
+fjl-validator@^0.7.14:
+  version "0.7.14"
+  resolved "https://registry.yarnpkg.com/fjl-validator/-/fjl-validator-0.7.14.tgz#d879e9785c6b756d9156013682a0bc675d509d8f"
+  integrity sha512-DD2r9a417G0AmHz24sXYd6kpz68So+eEORLEIvj8aPS6nhe1/PyzlndzhJ8Pq6XOXs8MefLkgV1RDWl5We6a+w==
   dependencies:
     fjl "^1.11.4"
 

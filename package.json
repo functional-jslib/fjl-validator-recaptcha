@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "fjl": "^1.11.4",
-    "fjl-validator": "^0.7.13"
+    "fjl-validator": "^0.7.14"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.0",
