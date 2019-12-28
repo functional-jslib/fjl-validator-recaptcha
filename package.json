@@ -9,7 +9,7 @@
     "stop": "node tests/mock-server-stop.js",
     "pretest": "yarn start",
     "posttest": "yarn stop",
-    "build": "gulp docs build && npm run test-builds",
+    "build": "gulp docs build && yarn run test-builds",
     "test-builds": "jest --testMatch **/tests/*-test-*.js",
     "test": "jest --testMatch **/tests/test-*.js",
     "eslint": "gulp eslint",
