@@ -123,7 +123,7 @@ curry2 = fn => curryN(2, fn),
  * @param fn {Function}
  * @returns {Function}
  */
-curry3 = fn => curryN(3, fn);
+curry3 = fn => curryN(3, fn);
 
 /**
  * @module utils
@@ -239,7 +239,7 @@ join = fPureTakesOne('join'),
  * @param arr {Array}
  * @returns {Number}
  */
-push = fPureTakesOneOrMore('push');
+push = fPureTakesOneOrMore('push');
 
 /**
  * Created by elydelacruz on 9/7/2017.
@@ -1650,7 +1650,7 @@ negateF2 = fn => curry((a, b) => !fn(a, b)),
  * @param fn {Function}
  * @returns {Function}
  */
-negateF3 = fn => curry((a, b, c) => !fn(a, b, c));
+negateF3 = fn => curry((a, b, c) => !fn(a, b, c));
 
 const 
 /**
@@ -1671,10 +1671,6 @@ until = curry((predicate, operation, typeInstance) => {
 
   return result;
 });
-
-/**
- * @module function
- */
 
 /**
  * @module object

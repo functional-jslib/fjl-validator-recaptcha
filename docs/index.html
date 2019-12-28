@@ -58,7 +58,7 @@
 
     <section>
         <article class="readme"><p><a href="https://travis-ci.org/functional-jslib/fjl-validator-recaptcha"><img src="https://travis-ci.org/functional-jslib/fjl-validator-recaptcha.png" alt="Build Status"></a>
-<a href="http://badge.fury.io/gh/functional-jslib%2Ffjl"><img src="https://badge.fury.io/gh/functional-jslib%2Ffjl.svg" alt="GitHub version"></a>
+<a href="http://badge.fury.io/gh/functional-jslib%2Ffjl-validator-recaptcha"><img src="https://badge.fury.io/gh/functional-jslib%2Ffjl-validator-recaptcha.svg" alt="GitHub version"></a>
 <a href="http://badge.fury.io/js/fjl-validator-recaptcha"><img src="https://badge.fury.io/js/fjl-validator-recaptcha.svg" alt="NPM version"></a>
 <a href="https://david-dm.org/functional-jslib/fjl-validator-recaptcha"><img src="https://david-dm.org/functional-jslib/fjl-validator-recaptcha.png" alt="Dependencies"></a></p>
 <h1>fjl-validator-recaptcha</h1>
@@ -250,11 +250,6 @@ fetch('/validate-recaptcha', {
 <a href="https://functional-jslib.github.io/fjl-validator-recaptcha/">jsdocs</a> version of docs instead:</p>
 <ul>
 <li><code>reCaptchaValidator (options, value)</code> - Makes an IO Request (returns a promise).  Curried.</li>
-<li><code>reCaptchaIOValidator (options, value)</code> - Sames <code>reCaptchaValidator</code> just explicitly named.  Curried.</li>
-<li><code>reCaptchaValidator$ (options, value, resolve, reject)</code> - Old style/callback based.  Not curried.</li>
-<li><code>reCaptchaIOValidator$ (options, value)</code> - Same as <code>reCaptchaIOValidator</code> but not curried.</li>
-<li><code>makeReCaptchaRequest$ (options, value, resolve, reject)</code> - Used by all <code>reCaptcha*</code> methods above
-(makes the request to recaptchaV2 api).  Not curried.  Old style callback based.</li>
 <li><code>toReCaptchaValidatorOptions (options)</code> - Returns a normalized <code>reCaptchaValidatorOptions</code> object.</li>
 <li><code>toReCaptchaTestValue (options)</code> - Returns a normalized <code>reCaptchaValidatorTestValue</code> object.</li>
 </ul>
